@@ -67,6 +67,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import coil.compose.AsyncImage
+import com.jdacodes.feca.core.util.graphs.RootNavigationGraph
 import com.jdacodes.feca.feature_product.domain.model.Product
 import com.jdacodes.feca.feature_product.presentation.ProductState
 import com.jdacodes.feca.feature_product.presentation.ProductViewModel
@@ -83,9 +84,10 @@ class MainActivity : ComponentActivity() {
             FakeECommerceAppTheme(
                 dynamicColor = false
             ) {
-                MyApp(
-                    modifier = Modifier.fillMaxSize()
-                )
+//                MyApp(
+//                    modifier = Modifier.fillMaxSize()
+//                )
+                RootNavigationGraph(navController = rememberNavController())
 
             }
 
@@ -95,157 +97,156 @@ class MainActivity : ComponentActivity() {
 }
 
 
-@Composable
-fun MyApp(
-    modifier: Modifier = Modifier
-) {
-    var shouldShowOnboarding by rememberSaveable { mutableStateOf(true) }
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
-    ) {
-        if (shouldShowOnboarding) {
-            OnboardingScreen(onContinueClicked = { shouldShowOnboarding = false })
-        } else {
-            ProductScreen()
-        }
-    }
-}
+//@Composable
+//fun MyApp(
+//    modifier: Modifier = Modifier
+//) {
+//    var shouldShowOnboarding by rememberSaveable { mutableStateOf(true) }
+//    Surface(
+//        modifier = Modifier.fillMaxSize(),
+//        color = MaterialTheme.colorScheme.background
+//    ) {
+//        if (shouldShowOnboarding) {
+//            OnboardingScreen(onContinueClicked = { shouldShowOnboarding = false })
+//        } else {
+//            ProductScreen()
+//        }
+//    }
+//}
 
-@Composable
-fun OnboardingScreen(
-    onContinueClicked: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text("Fake E-Commerce App!")
-        Button(
-            modifier = Modifier.padding(vertical = 24.dp),
-            onClick = onContinueClicked
-        ) {
-            Text("Continue")
-        }
-    }
+//@Composable
+//fun OnboardingScreen(
+//    onContinueClicked: () -> Unit,
+//    modifier: Modifier = Modifier
+//) {
+//    Column(
+//        modifier = modifier.fillMaxSize(),
+//        verticalArrangement = Arrangement.Center,
+//        horizontalAlignment = Alignment.CenterHorizontally
+//    ) {
+//        Text("Fake E-Commerce App!")
+//        Button(
+//            modifier = Modifier.padding(vertical = 24.dp),
+//            onClick = onContinueClicked
+//        ) {
+//            Text("Continue")
+//        }
+//    }
+//
+//}
 
-}
+//@Composable
+//fun ProductScreen(
+//    modifier: Modifier = Modifier,
+//    viewModel: ProductViewModel = hiltViewModel()
+//
+//) {
+//    val state = viewModel.state.value
+//    val scaffoldState = rememberScaffoldState()
+//
+//    val navController = rememberNavController()
+//
+//
+//    LaunchedEffect(key1 = true) {
+//        viewModel.getProductsList()
+//        viewModel.eventFlow.collectLatest { event ->
+//            when (event) {
+//                is ProductViewModel.UIEvent.ShowSnackBar -> {
+//                    scaffoldState.snackbarHostState.showSnackbar(
+//                        message = event.message
+//                    )
+//                }
+//            }
+//        }
+//    }
+//
+//    Scaffold(
+//        modifier = modifier,
+//        scaffoldState = scaffoldState,
+//
+//    ) { paddingValues ->
+//        ProductNavHost(
+//            state = state,
+//            modifier = modifier.padding(paddingValues),
+//            navController = navController
+//
+//        )
+//
+//    }
+//}
 
-@Composable
-fun ProductScreen(
-    modifier: Modifier = Modifier,
-    viewModel: ProductViewModel = hiltViewModel()
+//@Composable
+//fun ProductNavHost(
+//    navController: NavHostController,
+//    modifier: Modifier = Modifier,
+//    state: ProductState
+//) {
+//    NavHost(
+//        navController = navController,
+//        startDestination = Products.route,
+//        modifier = modifier
+//    ) {
+//
+//            composable(route = Products.route) {
+//                ProductListElement(
+//                    productItems = state.productItems,
+//                    isLoading = state.isLoading,
+//                    onProductClick = { id ->
+//                        navController.navigateToSingleProduct(id)
+//                    }
+//                )
+//            }
+//            composable(
+//                route = SingleProduct.routeWithArgs,
+//                arguments = SingleProduct.arguments
+//            ) { navBackStackEntry ->
+//                val productId = navBackStackEntry.arguments?.getInt(SingleProduct.productIdArg)
+//                SingleProductScreen(
+//                    productItems = state.productItems,
+//                    productId = productId,
+//                    modifier = modifier
+//                )
+//            }
 
-) {
-    val state = viewModel.state.value
-    val scaffoldState = rememberScaffoldState()
+//        productsGraph(
+//            navController = navController,
+//            state = state,
+//            modifier = modifier
+//        )
+//    }
+//
+//
+//}
 
-    // TODO: Not yet implemented: for Product details
-    val navController = rememberNavController()
-
-
-    LaunchedEffect(key1 = true) {
-        viewModel.getProductsList()
-        viewModel.eventFlow.collectLatest { event ->
-            when (event) {
-                is ProductViewModel.UIEvent.ShowSnackBar -> {
-                    scaffoldState.snackbarHostState.showSnackbar(
-                        message = event.message
-                    )
-                }
-            }
-        }
-    }
-
-    Scaffold(
-        modifier = modifier,
-        scaffoldState = scaffoldState,
-
-    ) { paddingValues ->
-        FecaNavHost(
-            state = state,
-            modifier = modifier.padding(paddingValues),
-            navController = navController
-
-        )
-
-    }
-}
-
-@Composable
-fun FecaNavHost(
-    navController: NavHostController,
-    modifier: Modifier = Modifier,
-    state: ProductState
-) {
-    NavHost(
-        navController = navController,
-        startDestination = Products.route,
-        modifier = modifier
-    ) {
-
-            composable(route = Products.route) {
-                ProductListElement(
-                    productItems = state.productItems,
-                    isLoading = state.isLoading,
-                    onProductClick = { id ->
-                        navController.navigateToSingleProduct(id)
-                    }
-                )
-            }
-            composable(
-                route = SingleProduct.routeWithArgs,
-                arguments = SingleProduct.arguments
-            ) { navBackStackEntry ->
-                val productId = navBackStackEntry.arguments?.getInt(SingleProduct.productIdArg)
-                SingleProductScreen(
-                    productItems = state.productItems,
-                    productId = productId,
-                    modifier = modifier
-                )
-            }
-
-        productsGraph(
-            navController = navController,
-            state = state,
-            modifier = modifier
-        )
-    }
-
-
-}
-
-fun NavGraphBuilder.productsGraph(
-    navController: NavController,
-    state: ProductState,
-    modifier: Modifier = Modifier
-) {
-    navigation(startDestination = Products.route, route = "products") {
-        composable(route = Products.route) {
-            ProductListElement(
-                productItems = state.productItems,
-                isLoading = state.isLoading,
-                onProductClick = { id ->
-                    navController.navigateToSingleProduct(id)
-                }
-            )
-        }
-        composable(
-            route = SingleProduct.routeWithArgs,
-            arguments = SingleProduct.arguments
-        ) { navBackStackEntry ->
-            val productId = navBackStackEntry.arguments?.getInt(SingleProduct.productIdArg)
-            SingleProductScreen(
-                productItems = state.productItems,
-                productId = productId,
-                modifier = modifier
-            )
-        }
-    }
-
-}
+//fun NavGraphBuilder.productsGraph(
+//    navController: NavHostController,
+//    state: ProductState,
+//    modifier: Modifier = Modifier
+//) {
+//    navigation(startDestination = Products.route, route = "products") {
+//        composable(route = Products.route) {
+//            ProductListElement(
+//                productItems = state.productItems,
+//                isLoading = state.isLoading,
+//                onProductClick = { id ->
+//                    navController.navigateToSingleProduct(id)
+//                }
+//            )
+//        }
+//        composable(
+//            route = SingleProduct.routeWithArgs,
+//            arguments = SingleProduct.arguments
+//        ) { navBackStackEntry ->
+//            val productId = navBackStackEntry.arguments?.getInt(SingleProduct.productIdArg)
+//            SingleProductScreen(
+//                productItems = state.productItems,
+//                productId = productId,
+//                modifier = modifier
+//            )
+//        }
+//    }
+//
+//}
 
 @Composable
 fun SingleProductScreen(
@@ -535,40 +536,40 @@ fun ProductsPreviewDark() {
     }
 }
 
-@Preview(showBackground = true, widthDp = 320, heightDp = 320)
-@Composable
-fun OnboardingPreview() {
-    FakeECommerceAppTheme() {
-        //do nothing
-        OnboardingScreen(onContinueClicked = {})
-    }
-}
+//@Preview(showBackground = true, widthDp = 320, heightDp = 320)
+//@Composable
+//fun OnboardingPreview() {
+//    FakeECommerceAppTheme() {
+//        //do nothing
+//        OnboardingScreen(onContinueClicked = {})
+//    }
+//}
 
 
-@Preview(
-    showBackground = true,
-    widthDp = 320,
-    heightDp = 320
-)
-@Composable
-fun MyAppPreview() {
-    FakeECommerceAppTheme() {
-        MyApp(Modifier.fillMaxSize())
-    }
-}
+//@Preview(
+//    showBackground = true,
+//    widthDp = 320,
+//    heightDp = 320
+//)
+//@Composable
+//fun MyAppPreview() {
+//    FakeECommerceAppTheme() {
+//        MyApp(Modifier.fillMaxSize())
+//    }
+//}
 
-@Preview(
-    showBackground = true,
-    widthDp = 320,
-    heightDp = 320,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
-)
-@Composable
-fun MyAppPreviewDark() {
-    FakeECommerceAppTheme() {
-        MyApp(Modifier.fillMaxSize())
-    }
-}
+//@Preview(
+//    showBackground = true,
+//    widthDp = 320,
+//    heightDp = 320,
+//    uiMode = Configuration.UI_MODE_NIGHT_YES
+//)
+//@Composable
+//fun MyAppPreviewDark() {
+//    FakeECommerceAppTheme() {
+//        MyApp(Modifier.fillMaxSize())
+//    }
+//}
 
 fun NavHostController.navigateSingleTopTo(route: String) {
     this.navigate(route) {
