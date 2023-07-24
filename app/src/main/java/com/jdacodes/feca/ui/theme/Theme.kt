@@ -63,19 +63,17 @@ fun FakeECommerceAppTheme(
         else -> LightColorScheme
     }
 
-//    val colorScheme = if (!darkTheme) {
-//        LightColorScheme
-//    } else {
-//        DarkColorScheme
-//    }
-
 
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
+            val insets = WindowCompat.getInsetsController(window, view)
             window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            insets.isAppearanceLightStatusBars = !darkTheme
+            insets.isAppearanceLightNavigationBars = !darkTheme
+
+//            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }
 
