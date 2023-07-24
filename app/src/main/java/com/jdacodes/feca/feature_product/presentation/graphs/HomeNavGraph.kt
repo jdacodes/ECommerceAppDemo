@@ -9,13 +9,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.jdacodes.feca.BottomBarScreen
-import com.jdacodes.feca.ProductListElement
 import com.jdacodes.feca.SingleProduct
-import com.jdacodes.feca.SingleProductScreen
 import com.jdacodes.feca.core.util.graphs.Graph
+import com.jdacodes.feca.feature_product.presentation.ProductListElement
 import com.jdacodes.feca.feature_product.presentation.ProductState
 import com.jdacodes.feca.feature_product.presentation.ScreenContent
-import com.jdacodes.feca.navigateSingleTopTo
+import com.jdacodes.feca.feature_product.presentation.SingleProductScreen
 
 
 @Composable
@@ -61,7 +60,7 @@ fun HomeNavGraph(
             route = SingleProduct.routeWithArgs,
             arguments = SingleProduct.arguments
         ) { navBackStackEntry ->
-            val productId = navBackStackEntry.arguments?.getInt(SingleProduct.productIdArg)
+            val productId = navBackStackEntry.arguments?.getInt(SingleProduct.productIdArg) ?: -1
             SingleProductScreen(
                 productItems = state.productItems,
                 productId = productId,
@@ -71,6 +70,7 @@ fun HomeNavGraph(
     }
 }
 
+//Graph is not navigated in app
 fun NavGraphBuilder.detailsNavGraph(navController: NavHostController) {
     navigation(
         route = Graph.DETAILS,

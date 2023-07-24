@@ -51,13 +51,14 @@ fun HomeScreen(
 
     Scaffold(
         modifier = modifier,
-        scaffoldState  = scaffoldState,
+        scaffoldState = scaffoldState,
         bottomBar = { BottomBar(navController = navController) }
     ) { paddingValues ->
         HomeNavGraph(
             state = state,
             modifier = modifier.padding(paddingValues),
-            navController = navController)
+            navController = navController
+        )
     }
 }
 
