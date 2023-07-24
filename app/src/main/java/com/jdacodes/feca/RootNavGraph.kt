@@ -1,4 +1,4 @@
-package com.jdacodes.feca.core.util.graphs
+package com.jdacodes.feca
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController

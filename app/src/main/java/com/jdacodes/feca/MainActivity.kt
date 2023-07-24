@@ -9,7 +9,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.jdacodes.feca.core.util.graphs.RootNavigationGraph
 import com.jdacodes.feca.ui.theme.FakeECommerceAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -1,8 +1,8 @@
-package com.jdacodes.feca
+package com.jdacodes.feca.feature_product.presentation
 
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import androidx.navigation.navDeepLink
+import com.jdacodes.feca.R
 
 interface FecaDestination {
     val route: String
@@ -10,7 +10,6 @@ interface FecaDestination {
 }
 
 object Products : FecaDestination {
-//    override val route = "products"
     override val route = "products_list"
     override val resourceId: Int = R.string.products_list
 }
@@ -19,7 +18,7 @@ object SingleProduct : FecaDestination {
     override val route = "single_product"
     override val resourceId: Int = R.string.single_product
     const val productIdArg = "product_id"
-    val routeWithArgs = "${route}/{${productIdArg}}"
+    val routeWithArgs = "$route/{$productIdArg}"
     val arguments = listOf(
         navArgument(productIdArg) { type = NavType.IntType }
     )
