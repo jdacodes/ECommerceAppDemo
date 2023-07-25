@@ -9,7 +9,7 @@ import com.jdacodes.feca.feature_product.data.remote.NetworkApi
 import com.jdacodes.feca.feature_product.data.repository.ProductRepositoryImpl
 import com.jdacodes.feca.feature_product.data.util.GsonParser
 import com.jdacodes.feca.feature_product.domain.repository.ProductRepository
-import com.jdacodes.feca.feature_product.domain.use_case.GetProduct
+import com.jdacodes.feca.feature_product.domain.use_case.GetProductsByTitle
 import com.jdacodes.feca.feature_product.domain.use_case.GetProducts
 import dagger.Module
 import dagger.Provides
@@ -31,8 +31,8 @@ object ProductModule {
 
     @Provides
     @Singleton
-    fun provideGetProductUseCase(repository: ProductRepository): GetProduct {
-        return GetProduct(repository)
+    fun provideGetProductsByTitleUseCase(repository: ProductRepository): GetProductsByTitle {
+        return GetProductsByTitle(repository)
     }
 
     @Provides

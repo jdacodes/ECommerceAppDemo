@@ -6,14 +6,14 @@ import com.jdacodes.feca.feature_product.domain.repository.ProductRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class GetProduct(
+class GetProductsByTitle(
     private val repository: ProductRepository
 ) {
-    operator fun invoke(title: String): Flow<Resource<Product>> {
+    operator fun invoke(title: String): Flow<Resource<List<Product>>> {
         //Validation goes here
         if (title.isBlank()) {
             return flow { }
         }
-        return repository.getProduct(title)
+        return repository.getProductsByTitle(title)
     }
 }

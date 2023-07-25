@@ -46,7 +46,33 @@ class ProductRepositoryImpl(
 
     }
 
-    override fun getProduct(title: String): Flow<Resource<Product>> {
-        TODO("Not yet implemented")
+    override fun getProductsByTitle(title: String): Flow<Resource<List<Product>>> = flow {
+        emit(Resource.Loading())
+        //emit from local db
+        val products = dao.getProductByTitle(title).map { it.toProduct() }
+        emit(Resource.Loading(data = products))
+
+        try {
+            val remoteProducts = api.getProducts()
+            dao.deleteProducts(remoteProducts.map { it.title })
+            dao.insertProducts(remoteProducts.map { it.toProductEntity() })
+        } catch (e: HttpException) {
+            emit(
+                Resource.Error(
+                    message = "Oops something went wrong!",
+                    data = products
+                )
+            )
+        } catch (e: IOException) {
+            emit(
+                Resource.Error(
+                    message = "Couldn't reach server, check your internet connection.",
+                    data = products
+                )
+            )
+        }
+        //emit to UI
+        val newProducts = dao.getProductByTitle(title).map { it.toProduct() }
+        emit(Resource.Success(newProducts))
     }
 }

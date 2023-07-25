@@ -10,7 +10,7 @@ interface NetworkApi {
     suspend fun getProducts(): List<ProductDto>
 
     @GET("/products/{id}")
-    suspend fun getProduct(
+    suspend fun getProductById(
         @Path("id") id: Int
     ): ProductDto
 

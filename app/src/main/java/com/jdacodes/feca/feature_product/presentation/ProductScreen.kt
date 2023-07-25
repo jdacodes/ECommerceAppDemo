@@ -22,6 +22,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.icons.Icons
@@ -31,6 +32,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
@@ -55,8 +57,10 @@ fun ProductListElement(
     productItems: List<Product>,
     isLoading: Boolean,
     modifier: Modifier = Modifier,
-    onProductClick: (Int) -> Unit = {}
-) {
+    onProductClick: (Int) -> Unit = {},
+    viewModel: ProductViewModel,
+
+    ) {
     Box(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.background)
@@ -65,6 +69,22 @@ fun ProductListElement(
             modifier = Modifier
                 .fillMaxSize()
         ) {
+            TextField(
+                singleLine = true,
+                shape = RoundedCornerShape(
+                    topStart = 40.dp,
+                    topEnd = 40.dp,
+                    bottomEnd = 40.dp,
+                    bottomStart = 40.dp
+                ),
+
+                value = viewModel.searchQuery.value,
+                onValueChange = viewModel::onSearch,
+                modifier = Modifier.fillMaxWidth(),
+                placeholder = {
+                    Text(text = "Search...")
+                }
+            )
             Spacer(modifier = Modifier.height(16.dp))
             LazyVerticalStaggeredGrid(
                 columns = StaggeredGridCells.Fixed(2),

@@ -61,7 +61,8 @@ fun HomeScreen(
         HomeNavGraph(
             state = state,
             modifier = modifier.padding(paddingValues),
-            navController = navController
+            navController = navController,
+            viewModel = viewModel
         )
     }
 }

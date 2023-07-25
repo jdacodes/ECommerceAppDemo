@@ -8,5 +8,5 @@ interface ProductRepository {
 
     fun getProducts(): Flow<Resource<List<Product>>>
 
-    fun getProduct(title: String): Flow<Resource<Product>>
+    fun getProductsByTitle(title: String): Flow<Resource<List<Product>>>
 }

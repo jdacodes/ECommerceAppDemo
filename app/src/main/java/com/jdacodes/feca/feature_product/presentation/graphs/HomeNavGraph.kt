@@ -14,6 +14,7 @@ import com.jdacodes.feca.feature_product.presentation.SingleProduct
 import com.jdacodes.feca.Graph
 import com.jdacodes.feca.feature_product.presentation.ProductListElement
 import com.jdacodes.feca.feature_product.presentation.ProductState
+import com.jdacodes.feca.feature_product.presentation.ProductViewModel
 import com.jdacodes.feca.feature_product.presentation.ScreenContent
 import com.jdacodes.feca.feature_product.presentation.SingleProductScreen
 
@@ -22,7 +23,8 @@ import com.jdacodes.feca.feature_product.presentation.SingleProductScreen
 fun HomeNavGraph(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    state: ProductState
+    state: ProductState,
+    viewModel: ProductViewModel
 ) {
     NavHost(
         navController = navController,
@@ -41,7 +43,8 @@ fun HomeNavGraph(
                 isLoading = state.isLoading,
                 onProductClick = { id ->
                     navController.navigateToSingleProduct(id)
-                }
+                },
+                viewModel = viewModel
             )
         }
         composable(route = BottomBarScreen.Profile.route) {

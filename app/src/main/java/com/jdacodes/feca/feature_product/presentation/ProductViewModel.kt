@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jdacodes.feca.core.util.Resource
 import com.jdacodes.feca.feature_product.domain.use_case.GetProducts
+import com.jdacodes.feca.feature_product.domain.use_case.GetProductsByTitle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -18,11 +19,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductViewModel @Inject constructor(
-    private val getProducts: GetProducts
+    private val getProducts: GetProducts,
+    private val getProductsByTitle: GetProductsByTitle
 ) : ViewModel() {
 
-//    private val _searchQuery = mutableStateOf("")
-//    val searchQuery: State<String> = _searchQuery
+    private val _searchQuery = mutableStateOf("")
+    val searchQuery: State<String> = _searchQuery
 
     private val _state = mutableStateOf(ProductState())
     val state: State<ProductState> = _state
@@ -31,12 +33,54 @@ class ProductViewModel @Inject constructor(
     val eventFlow = _eventFlow.asSharedFlow()
 
     private var productJob: Job? = null
+    private var searchJob: Job? = null
 
     fun getProductsList(){
         productJob?.cancel()
         productJob = viewModelScope.launch {
             delay(500L)
             getProducts()
+                .onEach { result ->
+                    when (result) {
+                        is Resource.Success -> {
+                            _state.value = state.value.copy(
+                                productItems = result.data ?: emptyList(),
+                                isLoading = false
+                            )
+                        }
+
+                        is Resource.Error -> {
+                            _state.value = state.value.copy(
+                                productItems = result.data ?: emptyList(),
+                                isLoading = false
+                            )
+                            _eventFlow.emit(
+                                UIEvent.ShowSnackBar(
+                                    result.message ?: "Unknown error"
+                                )
+                            )
+                        }
+
+                        is Resource.Loading -> {
+                            _state.value = state.value.copy(
+                                productItems = result.data ?: emptyList(),
+                                isLoading = true
+                            )
+                        }
+                    }
+                }.launchIn(this)
+        }
+    }
+
+    fun onSearch(query: String){
+        if (query.isBlank()){
+            getProductsList()
+        }
+        _searchQuery.value = query
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            delay(500L)
+           getProductsByTitle(query)
                 .onEach { result ->
                     when (result) {
                         is Resource.Success -> {
