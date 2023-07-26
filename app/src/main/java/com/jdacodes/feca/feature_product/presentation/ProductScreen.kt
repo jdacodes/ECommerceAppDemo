@@ -22,17 +22,16 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.sharp.Search
 import androidx.compose.material.icons.sharp.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
@@ -40,6 +39,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -47,7 +47,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-
 import com.jdacodes.feca.R
 import com.jdacodes.feca.feature_product.domain.model.Product
 
@@ -69,23 +68,35 @@ fun ProductListElement(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            TextField(
-                singleLine = true,
-                shape = RoundedCornerShape(
-                    topStart = 40.dp,
-                    topEnd = 40.dp,
-                    bottomEnd = 40.dp,
-                    bottomStart = 40.dp
-                ),
-
-                value = viewModel.searchQuery.value,
-                onValueChange = viewModel::onSearch,
-                modifier = Modifier.fillMaxWidth(),
-                placeholder = {
-                    Text(text = "Search...")
-                }
-            )
             Spacer(modifier = Modifier.height(16.dp))
+//            TextField(
+//                singleLine = true,
+//                value = viewModel.searchQuery.value,
+//                onValueChange = viewModel::onSearch,
+//                modifier = Modifier.fillMaxWidth()
+//                    .background(
+//                        color = MaterialTheme.colorScheme.surface,
+//                        shape = CircleShape
+//                    ),
+//                placeholder = {
+//                    Text(text = "Search ...")
+//                }
+//            )
+            SearchField(
+                viewModel = viewModel,
+                leadingIcon = {
+                    Icon(
+                        Icons.Sharp.Search,
+                        contentDescription = null,
+                        tint = Color.White
+                    )
+                },
+                trailingIcon = null,
+                paddingLeadingIconEnd = 10.dp,
+                paddingTrailingIconStart = 10.dp,
+
+            )
+            Spacer(modifier = Modifier.height(8.dp))
             LazyVerticalStaggeredGrid(
                 columns = StaggeredGridCells.Fixed(2),
                 contentPadding = PaddingValues(8.dp),
