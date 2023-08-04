@@ -1,4 +1,4 @@
-package com.jdacodes.feca
+package com.jdacodes.feca.core.presentation
 
 
 import android.annotation.SuppressLint
@@ -9,7 +9,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.jdacodes.feca.ui.theme.FakeECommerceAppTheme
+import com.jdacodes.feca.core.presentation.graphs.RootNavigationGraph
+import com.jdacodes.feca.core.presentation.theme.FakeECommerceAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -4,8 +4,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.jdacodes.feca.Graph
-import com.jdacodes.feca.feature_auth.presentation.LoginContent
+import com.jdacodes.feca.core.presentation.graphs.Graph
+import com.jdacodes.feca.feature_auth.presentation.login.LoginScreen
 import com.jdacodes.feca.feature_product.presentation.ScreenContent
 
 fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
@@ -14,10 +14,10 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
         startDestination = AuthScreen.Login.route
     ) {
         composable(route = AuthScreen.Login.route) {
-            LoginContent(
-                onClick = {
+            LoginScreen(
+                onClick = { route ->
                     navController.popBackStack()
-                    navController.navigate(Graph.HOME)
+                    navController.navigate(route)
                 },
                 onSignUpClick = {
                     navController.navigate(AuthScreen.SignUp.route)

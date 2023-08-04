@@ -1,4 +1,4 @@
-package com.jdacodes.feca
+package com.jdacodes.feca.core.presentation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home

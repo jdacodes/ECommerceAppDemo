@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jdacodes.feca.core.util.Resource
+import com.jdacodes.feca.core.util.UiEvents
 import com.jdacodes.feca.feature_product.domain.use_case.GetProducts
 import com.jdacodes.feca.feature_product.domain.use_case.GetProductsByTitle
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,7 +30,7 @@ class ProductViewModel @Inject constructor(
     private val _state = mutableStateOf(ProductState())
     val state: State<ProductState> = _state
 
-    private val _eventFlow = MutableSharedFlow<UIEvent>()
+    private val _eventFlow = MutableSharedFlow<UiEvents>()
     val eventFlow = _eventFlow.asSharedFlow()
 
     private var productJob: Job? = null
@@ -55,7 +56,7 @@ class ProductViewModel @Inject constructor(
                                 isLoading = false
                             )
                             _eventFlow.emit(
-                                UIEvent.ShowSnackBar(
+                                UiEvents.SnackBarEvent(
                                     result.message ?: "Unknown error"
                                 )
                             )
@@ -96,7 +97,7 @@ class ProductViewModel @Inject constructor(
                                 isLoading = false
                             )
                             _eventFlow.emit(
-                                UIEvent.ShowSnackBar(
+                                UiEvents.SnackBarEvent(
                                     result.message ?: "Unknown error"
                                 )
                             )
@@ -113,8 +114,4 @@ class ProductViewModel @Inject constructor(
         }
     }
 
-    //event flow ea for showing snackbar message
-    sealed class UIEvent {
-        data class ShowSnackBar(val message: String) : UIEvent()
-    }
 }

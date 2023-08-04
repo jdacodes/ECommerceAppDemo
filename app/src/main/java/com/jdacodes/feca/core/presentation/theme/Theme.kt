@@ -1,4 +1,4 @@
-package com.jdacodes.feca.ui.theme
+package com.jdacodes.feca.core.presentation.theme
 
 import android.app.Activity
 import android.os.Build

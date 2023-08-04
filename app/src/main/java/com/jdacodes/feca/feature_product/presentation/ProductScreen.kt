@@ -69,19 +69,6 @@ fun ProductListElement(
                 .fillMaxSize()
         ) {
             Spacer(modifier = Modifier.height(16.dp))
-//            TextField(
-//                singleLine = true,
-//                value = viewModel.searchQuery.value,
-//                onValueChange = viewModel::onSearch,
-//                modifier = Modifier.fillMaxWidth()
-//                    .background(
-//                        color = MaterialTheme.colorScheme.surface,
-//                        shape = CircleShape
-//                    ),
-//                placeholder = {
-//                    Text(text = "Search ...")
-//                }
-//            )
             SearchField(
                 viewModel = viewModel,
                 leadingIcon = {

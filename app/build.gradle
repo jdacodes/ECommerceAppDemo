@@ -83,8 +83,8 @@ dependencies {
     //Compose dependencies
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose'
     //Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.2'
 
     //Coroutine Lifecycle scope
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
@@ -122,6 +122,9 @@ dependencies {
 
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
     implementation 'androidx.navigation:navigation-fragment-ktx:2.6.0'
+
+    // Preferences DataStore (SharedPreferences like APIs)
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
 
 
 

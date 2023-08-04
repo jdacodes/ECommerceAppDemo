@@ -3,6 +3,7 @@ package com.jdacodes.feca.feature_product.di
 import android.app.Application
 import androidx.room.Room
 import com.google.gson.Gson
+import com.jdacodes.feca.core.util.Constants
 import com.jdacodes.feca.feature_product.data.local.AppDatabase
 import com.jdacodes.feca.feature_product.data.local.Converters
 import com.jdacodes.feca.feature_product.data.remote.NetworkApi
@@ -58,7 +59,7 @@ object ProductModule {
     @Singleton
     fun provideNetworkApi(): NetworkApi {
         return Retrofit.Builder()
-            .baseUrl(NetworkApi.BASE_URL)
+            .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(NetworkApi::class.java)

@@ -8,10 +8,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.jdacodes.feca.BottomBarScreen
+import com.jdacodes.feca.core.presentation.BottomBarScreen
 
 import com.jdacodes.feca.feature_product.presentation.SingleProduct
-import com.jdacodes.feca.Graph
+import com.jdacodes.feca.core.presentation.graphs.Graph
 import com.jdacodes.feca.feature_product.presentation.ProductListElement
 import com.jdacodes.feca.feature_product.presentation.ProductState
 import com.jdacodes.feca.feature_product.presentation.ProductViewModel

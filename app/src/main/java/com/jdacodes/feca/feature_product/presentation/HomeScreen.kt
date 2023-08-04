@@ -26,7 +26,8 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.jdacodes.feca.BottomBarScreen
+import com.jdacodes.feca.core.presentation.BottomBarScreen
+import com.jdacodes.feca.core.util.UiEvents
 import com.jdacodes.feca.feature_product.presentation.graphs.HomeNavGraph
 import kotlinx.coroutines.flow.collectLatest
 
@@ -44,10 +45,13 @@ fun HomeScreen(
         viewModel.getProductsList()
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
-                is ProductViewModel.UIEvent.ShowSnackBar -> {
+                is UiEvents.SnackBarEvent -> {
                     scaffoldState.snackbarHostState.showSnackbar(
                         message = event.message
                     )
+                }
+                is UiEvents.NavigateEvent -> {
+
                 }
             }
         }
