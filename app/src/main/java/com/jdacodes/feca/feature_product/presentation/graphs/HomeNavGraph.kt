@@ -12,6 +12,7 @@ import com.jdacodes.feca.core.presentation.BottomBarScreen
 
 import com.jdacodes.feca.feature_product.presentation.SingleProduct
 import com.jdacodes.feca.core.presentation.graphs.Graph
+import com.jdacodes.feca.feature_cart.presentation.cart.CartScreen
 import com.jdacodes.feca.feature_product.presentation.ProductListElement
 import com.jdacodes.feca.feature_product.presentation.ProductState
 import com.jdacodes.feca.feature_product.presentation.ProductViewModel
@@ -32,12 +33,7 @@ fun HomeNavGraph(
         startDestination = BottomBarScreen.Home.route
     ) {
         composable(route = BottomBarScreen.Home.route) {
-//            ScreenContent(
-//                name = BottomBarScreen.Home.route,
-//                onClick = {
-//                    navController.navigate(Graph.DETAILS)
-//                }
-//            )
+
             ProductListElement(
                 productItems = state.productItems,
                 isLoading = state.isLoading,
@@ -53,11 +49,12 @@ fun HomeNavGraph(
                 onClick = { }
             )
         }
-        composable(route = BottomBarScreen.Settings.route) {
-            ScreenContent(
-                name = BottomBarScreen.Settings.route,
-                onClick = { }
-            )
+        composable(route = BottomBarScreen.Cart.route) {
+//            ScreenContent(
+//                name = BottomBarScreen.Cart.route,
+//                onClick = { }
+//            )
+            CartScreen()
         }
         detailsNavGraph(navController = navController)
         composable(
