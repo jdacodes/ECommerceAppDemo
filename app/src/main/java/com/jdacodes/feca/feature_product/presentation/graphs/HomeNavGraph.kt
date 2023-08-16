@@ -18,6 +18,7 @@ import com.jdacodes.feca.feature_product.presentation.ProductState
 import com.jdacodes.feca.feature_product.presentation.ProductViewModel
 import com.jdacodes.feca.feature_product.presentation.ScreenContent
 import com.jdacodes.feca.feature_product.presentation.SingleProductScreen
+import com.jdacodes.feca.feature_profile.presentation.account.AccountScreen
 
 
 @Composable
@@ -44,10 +45,25 @@ fun HomeNavGraph(
             )
         }
         composable(route = BottomBarScreen.Profile.route) {
-            ScreenContent(
-                name = BottomBarScreen.Profile.route,
-                onClick = { }
-            )
+            // TODO: From Home Graph to Login Graph not working
+            AccountScreen(onSignOutClick = { route ->
+                navController.navigate(route) {
+                    popUpTo(BottomBarScreen.Home.route) {
+                        inclusive = true
+                    }
+                    popUpTo(BottomBarScreen.Profile.route) {
+                        inclusive = true
+                    }
+                    popUpTo(BottomBarScreen.Cart.route) {
+                        inclusive = true
+                    }
+                }
+//                navController.navigatePopUpTo(route)
+            })
+//            ScreenContent(
+//                name = BottomBarScreen.Profile.route,
+//                onClick = { }
+//            )
         }
         composable(route = BottomBarScreen.Cart.route) {
 //            ScreenContent(
@@ -118,4 +134,19 @@ fun NavHostController.navigateSingleTopTo(route: String) {
         restoreState = true
 
     }
+}
+
+fun NavHostController.navigatePopUpTo(route: String) {
+    this.navigate(route) {
+        popUpTo(BottomBarScreen.Home.route) {
+            inclusive = true
+        }
+        popUpTo(BottomBarScreen.Cart.route) {
+            inclusive = true
+        }
+        popUpTo(BottomBarScreen.Profile.route) {
+            inclusive = true
+        }
+    }
+
 }
