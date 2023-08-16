@@ -14,7 +14,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -31,6 +31,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import com.jdacodes.feca.R
+import com.jdacodes.feca.core.util.LoadingAnimation
 import com.jdacodes.feca.core.util.UiEvents
 import com.jdacodes.feca.feature_cart.domain.model.CartProduct
 import kotlinx.coroutines.flow.collectLatest
@@ -85,7 +87,7 @@ fun CartScreen(
 
 @Composable
 private fun CartScreenContent(state: CartItemsState) {
-    // TODO: Cart list not scrolling  
+
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn {
             items(state.cartItems) { cartItem ->
@@ -93,7 +95,7 @@ private fun CartScreenContent(state: CartItemsState) {
                     cartItem = cartItem,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(130.dp)
+                        .height(120.dp)
                         .padding(4.dp),
                 )
             }
@@ -109,10 +111,9 @@ private fun CartScreenContent(state: CartItemsState) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-//                LoadingAnimation(
-//                    circleSize = 16.dp,
-//                )
-                // TODO: replace with default loading animation
+                LoadingAnimation(
+                    circleSize = 16.dp,
+                )
             }
         }
 
@@ -142,8 +143,7 @@ private fun CartScreenContent(state: CartItemsState) {
                 Image(
                     modifier = Modifier
                         .size(220.dp),
-                    // TODO: add artwork in image
-                    painter = painterResource(id = com.google.android.material.R.drawable.mtrl_ic_error),
+                    painter = painterResource(id = R.drawable.ic_artwork),
                     contentDescription = null
                 )
             }
@@ -235,8 +235,7 @@ fun CartItem(
                     ImageRequest.Builder(LocalContext.current)
                         .data(data = cartItem.imageUrl)
                         .apply(block = fun ImageRequest.Builder.() {
-                            // TODO: add placeholder in image
-//                            placeholder(R.drawable.ic_placeholder)
+                            placeholder(R.drawable.ic_placeholder)
                             crossfade(true)
                         }).build()
                 ),
