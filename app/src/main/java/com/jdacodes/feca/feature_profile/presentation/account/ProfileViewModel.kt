@@ -8,9 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.jdacodes.feca.core.util.Resource
 import com.jdacodes.feca.core.util.UiEvents
+import com.jdacodes.feca.destinations.LoginScreenDestination
 import com.jdacodes.feca.feature_auth.data.dto.UserResponseDto
 import com.jdacodes.feca.feature_auth.domain.use_case.LogoutUseCase
-import com.jdacodes.feca.feature_auth.presentation.graphs.AuthScreen
 import com.jdacodes.feca.feature_profile.data.repository.ProfileRepository
 import com.jdacodes.feca.feature_profile.data.toDomain
 import com.jdacodes.feca.feature_profile.domain.model.User
@@ -52,8 +52,7 @@ class ProfileViewModel @Inject constructor(
             when (result) {
                 is Resource.Success -> {
                     _eventFlow.emit(
-                        // TODO: Provide correct route when logged out successful
-                        UiEvents.NavigateEvent(route = AuthScreen.Login.route)
+                        UiEvents.NavigateEvent(route = LoginScreenDestination.route)
                     )
                 }
 

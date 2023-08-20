@@ -35,9 +35,11 @@ import com.jdacodes.feca.R
 import com.jdacodes.feca.core.util.LoadingAnimation
 import com.jdacodes.feca.core.util.UiEvents
 import com.jdacodes.feca.feature_cart.domain.model.CartProduct
+import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.flow.collectLatest
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@Destination
 @Composable
 fun CartScreen(
     viewModel: CartViewModel = hiltViewModel()
@@ -95,7 +97,7 @@ private fun CartScreenContent(state: CartItemsState) {
                     cartItem = cartItem,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(120.dp)
+                        .height(130.dp)
                         .padding(4.dp),
                 )
             }
@@ -211,7 +213,8 @@ private fun CheckoutComponent(state: CartItemsState) {
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp), text = "Checkout", textAlign = TextAlign.Center,
+                    .padding(8.dp), text = "Checkout",
+                textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurface
             )
         }

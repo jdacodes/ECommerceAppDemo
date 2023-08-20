@@ -46,18 +46,23 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.jdacodes.feca.R
-import com.jdacodes.feca.core.presentation.graphs.Graph
 import com.jdacodes.feca.core.util.UiEvents
+import com.jdacodes.feca.destinations.AccountScreenDestination
+import com.jdacodes.feca.destinations.CartScreenDestination
+import com.jdacodes.feca.destinations.HomeScreenDestination
 import com.jdacodes.feca.feature_profile.domain.model.Account
 import com.jdacodes.feca.feature_profile.domain.model.User
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.collectLatest
 import java.util.Locale
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@Destination
 @Composable
 fun AccountScreen(
-    onSignOutClick: (String) -> Unit,
-    viewModel: ProfileViewModel = hiltViewModel()
+    viewModel: ProfileViewModel = hiltViewModel(),
+    navigator: DestinationsNavigator,
 ) {
     LaunchedEffect(key1 = true, block = {
         viewModel.getProfile()
@@ -79,34 +84,30 @@ fun AccountScreen(
                 }
 
                 is UiEvents.NavigateEvent -> {
-//                    navigator.navigate(event.route) {
-                    onSignOutClick(event.route)
-                    // TODO: fix popupto screens
+                    navigator.navigate(event.route) {
 
-//                        popUpTo(Graph.HOME) {
-//                            inclusive = false
-//                        }
-//                        popUpTo(HomeScreenDestination.route) {
-//                            inclusive = false
-//                        }
-//                        popUpTo(WishlistScreenDestination.route) {
-//                            inclusive = false
-//                        }
-//                        popUpTo(CartScreenDestination.route) {
-//                            inclusive = false
-//                        }
-//                    }
+                        popUpTo(AccountScreenDestination.route) {
+                            inclusive = false
+                        }
+                        popUpTo(HomeScreenDestination.route) {
+                            inclusive = false
+                        }
+
+                        popUpTo(CartScreenDestination.route) {
+                            inclusive = false
+                        }
+                    }
                 }
             }
         }
     }
     Scaffold(
-        backgroundColor = Color.White,
+        backgroundColor = MaterialTheme.colorScheme.background,
         scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(
                 elevation = 1.dp,
-                backgroundColor = Color.White,
+                backgroundColor = MaterialTheme.colorScheme.primary,
                 title = {
                     Text(
                         modifier = Modifier
@@ -114,7 +115,8 @@ fun AccountScreen(
                         textAlign = TextAlign.Center,
                         text = "My Profile",
                         fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
                 }
             )
@@ -127,7 +129,6 @@ fun AccountScreen(
             }
         )
     }
-
 }
 
 @Composable
@@ -149,7 +150,9 @@ private fun AccountScreenContent(
             Card(
                 modifier = Modifier.padding(8.dp),
                 border = BorderStroke(0.3.dp, MaterialTheme.colorScheme.surface),
-                shape = RoundedCornerShape(8.dp)
+                shape = RoundedCornerShape(8.dp),
+                contentColor = MaterialTheme.colorScheme.onSurface,
+                backgroundColor = MaterialTheme.colorScheme.surface,
             ) {
                 Row(
                     Modifier
@@ -161,14 +164,14 @@ private fun AccountScreenContent(
                     Column {
                         Text(
                             text = item.title,
-                            color = Color.Black,
+                            color = MaterialTheme.colorScheme.onSurface,
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 16.sp
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
                             text = item.content,
-                            color = Color.Black,
+                            color = MaterialTheme.colorScheme.onSurface,
                             fontWeight = FontWeight.Light,
                             fontSize = 12.sp
                         )
@@ -187,14 +190,18 @@ private fun AccountScreenContent(
             Button(
                 modifier = Modifier.padding(8.dp),
                 onClick = onClickSignOut,
-                shape = RoundedCornerShape(8)
+                shape = CircleShape,
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = MaterialTheme.colorScheme.surface,
+                    )
             ) {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(12.dp),
                     text = "Sign Out",
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
         }
@@ -209,7 +216,9 @@ fun UserItem(
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(8.dp),
-        elevation = 3.dp
+        elevation = 3.dp,
+        backgroundColor = MaterialTheme.colorScheme.surface,
+        contentColor = MaterialTheme.colorScheme.onSurface
     ) {
         Row {
             Image(
@@ -254,12 +263,13 @@ fun UserItem(
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
                     text = "@${user.username}",
-                    color = Color.Black,
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontSize = 16.sp,
                     maxLines = 3,
                     fontWeight = FontWeight.Light
@@ -271,17 +281,19 @@ fun UserItem(
                     onClick = {
                     },
                     colors = ButtonDefaults.buttonColors(
-                        contentColor = Color.Black,
-                        backgroundColor = MaterialTheme.colorScheme.background
+                        contentColor = MaterialTheme.colorScheme.onPrimary,
+                        backgroundColor = MaterialTheme.colorScheme.primary
                     ),
-                    shape = RoundedCornerShape(16.dp)
+                    shape = CircleShape,
+                    border = BorderStroke(2.dp, Color.White)
                 ) {
                     Text(
                         modifier = Modifier
                             .padding(3.dp),
                         fontSize = 11.sp,
                         textAlign = TextAlign.Center,
-                        text = "Edit profile"
+                        text = "Edit profile",
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }

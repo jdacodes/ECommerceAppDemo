@@ -12,7 +12,7 @@ data class ProductEntity(
     @PrimaryKey val id: Int? = null,
     val image: String? = "",
     val price: Double? = null,
-    val rating: Rating?,
+    val rating: Rating,
     val title: String? = ""
 ) {
     fun toProduct(): Product {

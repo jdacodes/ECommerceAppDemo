@@ -48,15 +48,18 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.jdacodes.feca.R
+import com.jdacodes.feca.destinations.SingleProductScreenDestination
 import com.jdacodes.feca.feature_product.domain.model.Product
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ProductListElement(
     productItems: List<Product>,
+    navigator: DestinationsNavigator,
     isLoading: Boolean,
     modifier: Modifier = Modifier,
-    onProductClick: (Int) -> Unit = {},
     viewModel: ProductViewModel,
 
     ) {
@@ -100,20 +103,15 @@ fun ProductListElement(
                     key(product.toString()) {
                         ProductItem(
                             product = product,
+                            navigator = navigator,
                             modifier = modifier,
-                            onProductClick = onProductClick,
+
                             index = index
                         )
                     }
 
                 }
 
-//                items(
-//                    items = productItems,
-//                    key = { productItem -> productItem.id!! }
-//                ) { product ->
-//                    ProductItem(product = product, modifier, onProductClick)
-//                }
             }
         }
         if (isLoading) {
@@ -125,9 +123,9 @@ fun ProductListElement(
 @Composable
 fun ProductItem(
     product: Product,
+    navigator: DestinationsNavigator,
     index: Int,
     modifier: Modifier = Modifier,
-    onProductClick: (Int) -> Unit = {}
 ) {
     Card(
         colors = CardDefaults.cardColors(
@@ -135,7 +133,7 @@ fun ProductItem(
         ),
         modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
     ) {
-        CardContent(product, onProductClick, index)
+        CardContent(product, navigator, index)
 
     }
 }
@@ -143,7 +141,7 @@ fun ProductItem(
 @Composable
 fun CardContent(
     product: Product,
-    onProductClick: (Int) -> Unit = {},
+    navigator: DestinationsNavigator,
     index: Int,
     modifier: Modifier = Modifier
 ) {
@@ -156,7 +154,7 @@ fun CardContent(
                     stiffness = Spring.StiffnessLow
                 )
             )
-            .clickable { onProductClick(index) }
+            .clickable { navigator.navigate(SingleProductScreenDestination(product = product)) }
     ) {
         Column(
             modifier = Modifier
@@ -219,25 +217,18 @@ fun CardContent(
         }
     }
 }
-
+@Destination
 @Composable
 fun SingleProductScreen(
-    productItems: List<Product>,
-    productId: Int? = productItems.first().id,
+    product: Product,
     modifier: Modifier = Modifier
 ) {
-    val index by rememberSaveable {
-        mutableStateOf(productId)
-    }
     Box(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.background)
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-
     ) {
-
-
         Card(
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -259,12 +250,12 @@ fun SingleProductScreen(
                     .fillMaxWidth()
 
             ) {
-                if (index != null) {
-                    Text(text = "Item: ${productItems[index!!].id}")
+                if (product.id != null) {
+                    Text(text = "Item: ${product.id}")
                 }
                 Spacer(modifier = Modifier.padding(vertical = 8.dp))
                 AsyncImage(
-                    model = productItems[index!!].image,
+                    model = product.image,
                     contentDescription = null,
                     modifier = Modifier
                         .heightIn(min = 20.dp, max = 280.dp)
@@ -272,7 +263,7 @@ fun SingleProductScreen(
                     contentScale = ContentScale.Inside
                 )
                 Spacer(modifier = Modifier.padding(vertical = 8.dp))
-                productItems[index!!].title?.let {
+                product.title?.let {
                     Text(
                         text = it,
                         style = MaterialTheme.typography.bodyMedium.copy(
@@ -286,7 +277,7 @@ fun SingleProductScreen(
                 }
                 Spacer(modifier = Modifier.padding(vertical = 8.dp))
                 Text(
-                    text = "$ ${productItems[index!!].price}",
+                    text = "$ ${product.price}",
                     style = MaterialTheme.typography.bodyMedium.copy(
                         fontWeight = FontWeight.SemiBold
                     ),
@@ -306,7 +297,7 @@ fun SingleProductScreen(
                         modifier = Modifier.size(18.dp)
                     )
                     Text(
-                        text = " ${productItems[index!!].rating?.rate}",
+                        text = " ${product.rating?.rate}",
                         style = MaterialTheme.typography.bodyMedium.copy(
                             fontWeight = FontWeight.SemiBold
                         ),
@@ -319,3 +310,4 @@ fun SingleProductScreen(
         }
     }
 }
+

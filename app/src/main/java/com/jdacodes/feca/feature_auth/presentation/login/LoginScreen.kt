@@ -45,15 +45,22 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.jdacodes.feca.core.domain.model.TextFieldState
 import com.jdacodes.feca.core.util.UiEvents
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.NavGraph
+import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.collectLatest
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalComposeUiApi::class)
+@AuthNavGraph(start = true)
+@Destination
 @Composable
 fun LoginScreen(
-    onClick: (String) -> Unit,
-    onSignUpClick: () -> Unit,
-    onForgotClick: () -> Unit,
+//    onClick: (String) -> Unit,
+//    onSignUpClick: () -> Unit,
+//    onForgotClick: () -> Unit,
+    navigator: DestinationsNavigator,
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
     val usernameState = viewModel.usernameState.value
@@ -76,12 +83,16 @@ fun LoginScreen(
                 }
 
                 is UiEvents.NavigateEvent -> {
-                    onClick(event.route)
+//                    onClick(event.route)
+                    navigator.popBackStack()
+                    navigator.navigate(event.route)
                     scaffoldState.snackbarHostState.showSnackbar(
                         message = "Login successful",
                         duration = SnackbarDuration.Short
                     )
                 }
+
+                else -> {}
             }
         }
     }
@@ -130,8 +141,12 @@ fun LoginScreen(
             onRememberMeClicked = {
                 viewModel.setRememberMe(it)
             },
-            onClickForgotPassword = { onForgotClick() },
-            onClickDontHaveAccount = { onSignUpClick() },
+            onClickForgotPassword = {
+//                onForgotClick()
+            },
+            onClickDontHaveAccount = {
+//                onSignUpClick()
+            },
             onClickSignIn = {
                 keyboardController?.hide()
                 viewModel.loginUser()
@@ -334,3 +349,9 @@ private fun LoginScreenContent(
         }
     }
 }
+
+@RootNavGraph(start = true)
+@NavGraph
+annotation class AuthNavGraph(
+    val start: Boolean = false
+)

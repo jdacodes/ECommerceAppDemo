@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
+    id 'com.google.devtools.ksp' version '1.8.22-1.0.11'
+    id 'kotlin-parcelize'
 
 }
 
@@ -51,10 +53,11 @@ android {
         }
     }
 
-
-//    kotlin {
-//        jvmToolchain(18)
-//    }
+    applicationVariants.all { variant ->
+        variant.addJavaSourceFoldersToModel(
+                new File(buildDir, "generated/ksp/${variant.name}/kotlin")
+        )
+    }
 
 }
 
@@ -125,6 +128,10 @@ dependencies {
 
     // Preferences DataStore (SharedPreferences like APIs)
     implementation "androidx.datastore:datastore-preferences:1.0.0"
+
+    // Navigation made easier
+    implementation 'io.github.raamcosta.compose-destinations:core:1.5.9-beta'
+    ksp 'io.github.raamcosta.compose-destinations:ksp:1.5.9-beta'
 
 
 

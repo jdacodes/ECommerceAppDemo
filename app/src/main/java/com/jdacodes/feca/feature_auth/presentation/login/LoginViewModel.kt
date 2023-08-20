@@ -5,9 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jdacodes.feca.core.domain.model.TextFieldState
-import com.jdacodes.feca.core.presentation.graphs.Graph
 import com.jdacodes.feca.core.util.Resource
 import com.jdacodes.feca.core.util.UiEvents
+import com.jdacodes.feca.destinations.HomeScreenDestination
 import com.jdacodes.feca.feature_auth.domain.use_case.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -65,7 +65,7 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
             when (loginResult.result) {
                 is Resource.Success -> {
                     _eventFlow.emit(
-                        UiEvents.NavigateEvent(Graph.HOME)
+                        UiEvents.NavigateEvent(HomeScreenDestination.route)
                     )
                 }
                 is Resource.Error -> {

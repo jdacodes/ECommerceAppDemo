@@ -5,27 +5,28 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.jdacodes.feca.destinations.AccountScreenDestination
+import com.jdacodes.feca.destinations.CartScreenDestination
+import com.jdacodes.feca.destinations.Destination
+import com.jdacodes.feca.destinations.HomeScreenDestination
+
 
 sealed class BottomBarScreen(
-    val route: String,
-    val title: String,
-    val icon: ImageVector
+    var icon: ImageVector,
+    var destination: Destination
 ) {
     object Home : BottomBarScreen(
-        route = "HOME",
-        title = "HOME",
-        icon = Icons.Default.Home
+        icon = Icons.Default.Home,
+        destination = HomeScreenDestination
     )
 
     object Profile : BottomBarScreen(
-        route = "PROFILE",
-        title = "PROFILE",
-        icon = Icons.Default.Person
+        icon = Icons.Default.Person,
+        destination = AccountScreenDestination
     )
 
     object Cart : BottomBarScreen(
-        route = "CART",
-        title = "CART",
-        icon = Icons.Default.ShoppingCart
+        icon = Icons.Default.ShoppingCart,
+        destination = CartScreenDestination
     )
 }
