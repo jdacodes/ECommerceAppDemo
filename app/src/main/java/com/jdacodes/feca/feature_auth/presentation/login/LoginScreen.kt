@@ -45,6 +45,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.jdacodes.feca.core.domain.model.TextFieldState
 import com.jdacodes.feca.core.util.UiEvents
+import com.jdacodes.feca.destinations.ForgotPasswordScreenDestination
+import com.jdacodes.feca.destinations.RegisterScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.NavGraph
 import com.ramcosta.composedestinations.annotation.RootNavGraph
@@ -53,13 +55,10 @@ import kotlinx.coroutines.flow.collectLatest
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalComposeUiApi::class)
-@AuthNavGraph(start = true)
+
 @Destination
 @Composable
 fun LoginScreen(
-//    onClick: (String) -> Unit,
-//    onSignUpClick: () -> Unit,
-//    onForgotClick: () -> Unit,
     navigator: DestinationsNavigator,
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
@@ -83,7 +82,6 @@ fun LoginScreen(
                 }
 
                 is UiEvents.NavigateEvent -> {
-//                    onClick(event.route)
                     navigator.popBackStack()
                     navigator.navigate(event.route)
                     scaffoldState.snackbarHostState.showSnackbar(
@@ -107,7 +105,6 @@ fun LoginScreen(
                 Column(
                     Modifier
                         .padding(16.dp),
-//                        .background(MaterialTheme.colorScheme.background),
                     verticalArrangement = Arrangement.Top
                 ) {
                     Text(
@@ -142,10 +139,10 @@ fun LoginScreen(
                 viewModel.setRememberMe(it)
             },
             onClickForgotPassword = {
-//                onForgotClick()
+                navigator.navigate(ForgotPasswordScreenDestination)
             },
             onClickDontHaveAccount = {
-//                onSignUpClick()
+                navigator.navigate(RegisterScreenDestination)
             },
             onClickSignIn = {
                 keyboardController?.hide()
@@ -349,6 +346,12 @@ private fun LoginScreenContent(
         }
     }
 }
+/**
+ * A nested Navigation graph will be created with @NavGraph annotation
+ * @AuthNavGraph annotation used to indicate a start destination screen inside the graph
+ * @RootNavGraph, makes the created nested graph be the root of the graph
+ */
+
 
 @RootNavGraph(start = true)
 @NavGraph
