@@ -87,14 +87,14 @@ fun AccountScreen(
                     navigator.navigate(event.route) {
 
                         popUpTo(AccountScreenDestination.route) {
-                            inclusive = false
+                            inclusive = true
                         }
                         popUpTo(HomeScreenDestination.route) {
-                            inclusive = false
+                            inclusive = true
                         }
 
                         popUpTo(CartScreenDestination.route) {
-                            inclusive = false
+                            inclusive = true
                         }
                     }
                 }

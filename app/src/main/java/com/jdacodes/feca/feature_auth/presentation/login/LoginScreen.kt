@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.jdacodes.feca.core.domain.model.TextFieldState
 import com.jdacodes.feca.core.util.UiEvents
+import com.jdacodes.feca.destinations.AuthDashBoardScreenDestination
 import com.jdacodes.feca.destinations.ForgotPasswordScreenDestination
 import com.jdacodes.feca.destinations.RegisterScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
@@ -83,7 +84,11 @@ fun LoginScreen(
 
                 is UiEvents.NavigateEvent -> {
                     navigator.popBackStack()
-                    navigator.navigate(event.route)
+                    navigator.navigate(event.route){
+                        popUpTo(AuthDashBoardScreenDestination.route){
+                            inclusive = true
+                        }
+                    }
                     scaffoldState.snackbarHostState.showSnackbar(
                         message = "Login successful",
                         duration = SnackbarDuration.Short
