@@ -1,6 +1,7 @@
 package com.jdacodes.feca.core.presentation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
@@ -9,6 +10,7 @@ import com.jdacodes.feca.destinations.AccountScreenDestination
 import com.jdacodes.feca.destinations.CartScreenDestination
 import com.jdacodes.feca.destinations.Destination
 import com.jdacodes.feca.destinations.HomeScreenDestination
+import com.jdacodes.feca.destinations.WishlistScreenDestination
 
 
 sealed class BottomBarScreen(
@@ -28,5 +30,10 @@ sealed class BottomBarScreen(
     object Cart : BottomBarScreen(
         icon = Icons.Default.ShoppingCart,
         destination = CartScreenDestination
+    )
+
+    object Wishlist : BottomBarScreen(
+        icon = Icons.Default.Favorite,
+        destination = WishlistScreenDestination
     )
 }

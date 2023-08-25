@@ -21,8 +21,9 @@ fun CustomScaffold(
     showBottomBar: Boolean = true,
     items: List<BottomBarScreen> = listOf(
         BottomBarScreen.Home,
-        BottomBarScreen.Profile,
+        BottomBarScreen.Wishlist,
         BottomBarScreen.Cart,
+        BottomBarScreen.Profile,
     ),
     content: @Composable (paddingValues: PaddingValues) -> Unit
 ) {

@@ -7,13 +7,13 @@ import com.jdacodes.feca.feature_product.domain.model.Rating
 
 @Entity
 data class ProductEntity(
-    val category: String? = "",
-    val description: String? = "",
-    @PrimaryKey val id: Int? = null,
-    val image: String? = "",
-    val price: Double? = null,
+    val category: String,
+    val description: String,
+    @PrimaryKey val id: Int,
+    val image: String,
+    val price: Double,
     val rating: Rating,
-    val title: String? = ""
+    val title: String
 ) {
     fun toProduct(): Product {
         return Product(

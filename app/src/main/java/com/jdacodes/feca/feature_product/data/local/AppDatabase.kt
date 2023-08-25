@@ -7,7 +7,7 @@ import com.jdacodes.feca.feature_product.data.local.entity.ProductEntity
 
 @Database(
     entities = [ProductEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 

@@ -5,4 +5,5 @@
     <string name="star_rating_icon">star_rating_icon</string>
     <string name="products_list">products_list</string>
     <string name="single_product">single_product</string>
+    <string name="add_to_cart">Add to cart</string>
 </resources>

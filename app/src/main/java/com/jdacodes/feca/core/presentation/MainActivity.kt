@@ -19,6 +19,7 @@ import com.jdacodes.feca.core.presentation.theme.FakeECommerceAppTheme
 import com.jdacodes.feca.destinations.AccountScreenDestination
 import com.jdacodes.feca.destinations.CartScreenDestination
 import com.jdacodes.feca.destinations.HomeScreenDestination
+import com.jdacodes.feca.destinations.WishlistScreenDestination
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.rememberNavHostEngine
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,6 +42,7 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     showBottomBar = route in listOf(
                         HomeScreenDestination.route,
+                        WishlistScreenDestination.route,
                         CartScreenDestination.route,
                         AccountScreenDestination.route
                     )
