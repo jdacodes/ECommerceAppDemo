@@ -98,8 +98,9 @@ fun RegisterScreenContent(
                 maxLines = 1,
                 singleLine = true,
                 colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = MaterialTheme.colorScheme.onSurface,
+                    focusedBorderColor = MaterialTheme.colorScheme.tertiary,
                     unfocusedBorderColor = MaterialTheme.colorScheme.onSurface,
+                    cursorColor = MaterialTheme.colorScheme.tertiary,
                 )
             )
         }
@@ -122,8 +123,9 @@ fun RegisterScreenContent(
                 maxLines = 1,
                 singleLine = true,
                 colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = MaterialTheme.colorScheme.onSurface,
+                    focusedBorderColor = MaterialTheme.colorScheme.tertiary,
                     unfocusedBorderColor = MaterialTheme.colorScheme.onSurface,
+                    cursorColor = MaterialTheme.colorScheme.tertiary,
                 )
             )
         }
@@ -146,9 +148,9 @@ fun RegisterScreenContent(
                 maxLines = 1,
                 singleLine = true,
                 colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = MaterialTheme.colorScheme.onSurface,
+                    focusedBorderColor = MaterialTheme.colorScheme.tertiary,
                     unfocusedBorderColor = MaterialTheme.colorScheme.onSurface,
-                    cursorColor = MaterialTheme.colorScheme.onSurface,
+                    cursorColor = MaterialTheme.colorScheme.tertiary,
                 )
             )
         }
@@ -168,11 +170,11 @@ fun RegisterScreenContent(
                 },
                 shape = CircleShape,
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = MaterialTheme.colorScheme.surface,
-                    contentColor = MaterialTheme.colorScheme.onSurface
+                    backgroundColor = MaterialTheme.colorScheme.tertiary,
                 )
             ) {
                 Text(
+                    color = MaterialTheme.colorScheme.onTertiary,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(12.dp), text = "Sign Up", textAlign = TextAlign.Center
@@ -198,7 +200,7 @@ fun RegisterScreenContent(
                         append(" ")
                         withStyle(
                             style = SpanStyle(
-                                color = MaterialTheme.colorScheme.onSurface,
+                                color = MaterialTheme.colorScheme.tertiary,
                                 fontWeight = FontWeight.Bold
                             )
                         ) {

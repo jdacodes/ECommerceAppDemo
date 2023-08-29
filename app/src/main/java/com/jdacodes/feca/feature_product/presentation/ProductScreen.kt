@@ -27,7 +27,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
@@ -66,6 +65,7 @@ import com.gowtham.ratingbar.RatingBar
 import com.gowtham.ratingbar.RatingBarStyle
 import com.gowtham.ratingbar.StepSize
 import com.jdacodes.feca.R
+import com.jdacodes.feca.core.util.LoadingAnimation
 import com.jdacodes.feca.destinations.SingleProductScreenDestination
 import com.jdacodes.feca.feature_product.domain.model.Product
 import com.jdacodes.feca.feature_wishlist.data.mapper.toWishlistRating
@@ -130,7 +130,15 @@ fun ProductListElement(
             }
         }
         if (isLoading) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            Column(
+                Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                LoadingAnimation(
+                    circleSize = 16.dp,
+                )
+            }
         }
     }
 }
@@ -145,7 +153,11 @@ fun ProductItem(
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
-        ), modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
+        ),
+        modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 3.dp
+        )
     ) {
         CardContent(product, navigator, index)
 
@@ -167,7 +179,7 @@ fun CardContent(
         Column(
             modifier = Modifier.padding(12.dp)
         ) {
-            Text(text = "Item: ${product.id}")
+//            Text(text = "Item: ${product.id}")
             Spacer(modifier = Modifier.padding(vertical = 8.dp))
             AsyncImage(
                 model = product.image,
@@ -182,7 +194,8 @@ fun CardContent(
                 Text(
                     text = it,
                     style = MaterialTheme.typography.bodyMedium.copy(
-                        fontWeight = FontWeight.ExtraBold
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 14.sp
                     ),
                     maxLines = 2,
                     textAlign = TextAlign.Start,
@@ -194,9 +207,10 @@ fun CardContent(
             Text(
                 text = "$ ${product.price}",
                 style = MaterialTheme.typography.bodyMedium.copy(
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.Light,
+                    fontSize = 18.sp
                 ),
-                maxLines = 1,
+                maxLines = 3,
                 textAlign = TextAlign.Start,
                 modifier = Modifier.align(Alignment.Start)
             )
@@ -214,9 +228,10 @@ fun CardContent(
                 Text(
                     text = " ${product.rating?.rate}",
                     style = MaterialTheme.typography.bodyMedium.copy(
-                        fontWeight = FontWeight.SemiBold
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 18.sp
                     ),
-                    maxLines = 1,
+                    maxLines = 3,
                     textAlign = TextAlign.Start,
 
                     )
@@ -231,9 +246,10 @@ fun CardContent(
 fun SingleProductScreen(
     product: Product,
     navigator: DestinationsNavigator,
+    modifier: Modifier = Modifier,
     viewModel: WishlistViewModel = hiltViewModel(),
-    modifier: Modifier = Modifier
-) {
+
+    ) {
 
     val inWishlist = viewModel.inWishlist(product.id).observeAsState().value != null
 
@@ -250,11 +266,6 @@ fun SingleProductScreen(
                     navigator.popBackStack()
                 },
             ) {
-//                    androidx.compose.material.Icon(
-//                        painter = painterResource(id = R.drawable.ic_chevron_left),
-//                        contentDescription = null,
-//                        modifier = Modifier.size(32.dp)
-//                    )
                 Icon(
                     imageVector = Icons.Filled.ChevronLeft,
                     contentDescription = null,
@@ -292,20 +303,6 @@ fun SingleProductScreen(
                     }
                 },
             ) {
-//                    androidx.compose.material.Icon(
-//                        painter = if (inWishlist) {
-//                            painterResource(id = R.drawable.ic_heart_fill)
-//                        } else {
-//                            painterResource(id = R.drawable.ic_heart)
-//                        },
-//                        tint = if (inWishlist) {
-//                            YellowMain
-//                        } else {
-//                            GrayColor
-//                        },
-//                        contentDescription = null,
-//                        modifier = Modifier.size(32.dp)
-//                    )
 
                 Icon(
                     imageVector = if (inWishlist) {
@@ -313,7 +310,7 @@ fun SingleProductScreen(
                     } else {
                         Icons.Filled.FavoriteBorder
                     },
-                    tint = MaterialTheme.colorScheme.onSurface,
+                    tint = MaterialTheme.colorScheme.tertiary,
                     contentDescription = null,
                     modifier = Modifier.size(32.dp)
                 )
@@ -325,91 +322,7 @@ fun SingleProductScreen(
             modifier = Modifier.fillMaxSize()
         )
     }
-//    Box(
-//        modifier = Modifier
-//            .background(MaterialTheme.colorScheme.background)
-//            .fillMaxSize()
-//            .verticalScroll(rememberScrollState())
-//    ) {
-//        Card(
-//            colors = CardDefaults.cardColors(
-//                containerColor = MaterialTheme.colorScheme.primaryContainer,
-//            ), modifier = Modifier
-//                .padding(vertical = 4.dp, horizontal = 8.dp)
-//                .fillMaxWidth()
-//        ) {
-//
-//            Column(
-//                modifier = Modifier
-//                    .padding(24.dp)
-//                    .animateContentSize(
-//                        animationSpec = spring(
-//                            dampingRatio = Spring.DampingRatioMediumBouncy,
-//                            stiffness = Spring.StiffnessLow
-//                        )
-//                    )
-//                    .fillMaxWidth()
-//
-//            ) {
-//                if (product.id != null) {
-//                    Text(text = "Item: ${product.id}")
-//                }
-//                Spacer(modifier = Modifier.padding(vertical = 8.dp))
-//                AsyncImage(
-//                    model = product.image,
-//                    contentDescription = null,
-//                    modifier = Modifier
-//                        .heightIn(min = 20.dp, max = 280.dp)
-//                        .align(Alignment.CenterHorizontally),
-//                    contentScale = ContentScale.Inside
-//                )
-//                Spacer(modifier = Modifier.padding(vertical = 8.dp))
-//                product.title?.let {
-//                    Text(
-//                        text = it,
-//                        style = MaterialTheme.typography.bodyMedium.copy(
-//                            fontWeight = FontWeight.ExtraBold
-//                        ),
-//                        maxLines = 2,
-//                        textAlign = TextAlign.Start,
-//                        overflow = TextOverflow.Ellipsis,
-//                        modifier = Modifier.align(Alignment.Start)
-//                    )
-//                }
-//                Spacer(modifier = Modifier.padding(vertical = 8.dp))
-//                Text(
-//                    text = "$ ${product.price}",
-//                    style = MaterialTheme.typography.bodyMedium.copy(
-//                        fontWeight = FontWeight.SemiBold
-//                    ),
-//                    maxLines = 1,
-//                    textAlign = TextAlign.Start,
-//                    modifier = Modifier.align(Alignment.Start)
-//                )
-//                Spacer(modifier = Modifier.padding(vertical = 8.dp))
-//                Row(
-//                    horizontalArrangement = Arrangement.Start,
-//                    verticalAlignment = Alignment.CenterVertically
-//                ) {
-//
-//                    Icon(
-//                        Icons.Sharp.Star,
-//                        contentDescription = stringResource(id = R.string.star_rating_icon),
-//                        modifier = Modifier.size(18.dp)
-//                    )
-//                    Text(
-//                        text = " ${product.rating?.rate}",
-//                        style = MaterialTheme.typography.bodyMedium.copy(
-//                            fontWeight = FontWeight.SemiBold
-//                        ),
-//                        maxLines = 1,
-//                        textAlign = TextAlign.Start,
-//
-//                        )
-//                }
-//            }
-//        }
-//    }
+
 }
 
 @Composable
@@ -423,25 +336,7 @@ fun SingleProductScreenContent(
             modifier = modifier.weight(1f),
             contentAlignment = Alignment.Center
         ) {
-//            Image(
-//                painter = rememberAsyncImagePainter(
-//                    ImageRequest.Builder(LocalContext.current)
-//                        .data(data = product.image)
-//                        .apply(block = fun ImageRequest.Builder.() {
-//                            crossfade(true)
-//                            placeholder(R.drawable.ic_placeholder)
-//                        }).build()
-//                ),
-//                contentDescription = null,
-//                modifier = modifier
-//                    .fillMaxWidth()
-//                    .height(250.dp)
-//                    .align(Alignment.Center),
-//                contentScale = ContentScale.Inside
-//            )
-
             AsyncImage(
-//                model = product.image,
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(product.image)
                     .crossfade(true)
@@ -494,20 +389,6 @@ fun SingleProductScreenContent(
                         horizontalArrangement = Arrangement.SpaceAround,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-//                        RatingBar(
-//                            value = rating,
-//                            config = RatingBarConfig()
-//                                .activeColor(YellowMain)
-//                                .inactiveColor(GrayColor)
-//                                .stepSize(StepSize.HALF)
-//                                .numStars(5)
-//                                .isIndicator(true)
-//                                .size(16.dp)
-//                                .padding(3.dp)
-//                                .style(RatingBarStyle.HighLighted),
-//                            onValueChange = {},
-//                            onRatingChanged = {}
-//                        )
                         RatingBar(
                             value = rating,
                             style = RatingBarStyle.Fill(
@@ -564,7 +445,6 @@ fun SingleProductScreenContent(
                         onClick = {
                         },
                         colors = ButtonDefaults.buttonColors(
-                            contentColor = MaterialTheme.colorScheme.onTertiary,
                             backgroundColor = MaterialTheme.colorScheme.tertiary,
                         ),
                         shape = CircleShape
@@ -575,7 +455,9 @@ fun SingleProductScreenContent(
                                 .padding(5.dp),
                             fontSize = 16.sp,
                             textAlign = TextAlign.Center,
-                            text = stringResource(R.string.add_to_cart)
+                            text = stringResource(R.string.add_to_cart),
+                            color = MaterialTheme.colorScheme.onTertiary
+
                         )
                     }
                 }

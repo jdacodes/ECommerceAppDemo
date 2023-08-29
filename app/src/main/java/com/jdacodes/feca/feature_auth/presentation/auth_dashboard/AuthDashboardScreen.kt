@@ -85,7 +85,7 @@ fun AuthDashBoardScreen(
                             .padding(start = 8.dp, end = 8.dp),
                         shape = CircleShape,
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = MaterialTheme.colorScheme.surface
+                            backgroundColor = MaterialTheme.colorScheme.tertiary
                         )
 
                     ) {
@@ -95,7 +95,7 @@ fun AuthDashBoardScreen(
                                 .padding(8.dp),
                             textAlign = TextAlign.Center,
                             text = "Sign In",
-                            color = MaterialTheme.colorScheme.onSurface
+                            color = MaterialTheme.colorScheme.onTertiary
                         )
                     }
 

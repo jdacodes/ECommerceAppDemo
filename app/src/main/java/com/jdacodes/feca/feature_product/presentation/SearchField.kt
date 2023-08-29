@@ -12,10 +12,12 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchField(
     viewModel: ProductViewModel,
@@ -25,6 +27,7 @@ fun SearchField(
     leadingIcon: (@Composable() () -> Unit)? = null,
     trailingIcon: (@Composable() () -> Unit)? = null,
 ) {
+//    val keyboardController = LocalSoftwareKeyboardController.current
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -49,12 +52,12 @@ fun SearchField(
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = MaterialTheme.colorScheme.surface,
                     unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-                    cursorColor = MaterialTheme.colorScheme.onSurface,
+                    cursorColor = MaterialTheme.colorScheme.tertiary,
                     focusedIndicatorColor = MaterialTheme.colorScheme.background,
                     unfocusedIndicatorColor = MaterialTheme.colorScheme.background,
                     selectionColors = TextSelectionColors(
-                        handleColor = MaterialTheme.colorScheme.background,
-                        backgroundColor = MaterialTheme.colorScheme.background
+                        handleColor = MaterialTheme.colorScheme.tertiary,
+                        backgroundColor = MaterialTheme.colorScheme.tertiary
                     )
                 ),
                 shape = CircleShape,

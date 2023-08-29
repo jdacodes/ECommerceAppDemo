@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.Scaffold
 import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.Text
@@ -202,15 +203,21 @@ private fun LoginScreenContent(
                         singleLine = true,
                         isError = usernameState.error != null,
                         colors = TextFieldDefaults.outlinedTextFieldColors(
-                            focusedBorderColor = MaterialTheme.colorScheme.onSurface,
+                            focusedBorderColor = MaterialTheme.colorScheme.tertiary,
                             unfocusedBorderColor = MaterialTheme.colorScheme.onSurface,
-                        )
+                            cursorColor = MaterialTheme.colorScheme.tertiary,
+                            selectionColors = TextSelectionColors(
+                                handleColor = MaterialTheme.colorScheme.tertiary,
+                                backgroundColor = MaterialTheme.colorScheme.tertiary
+                            ),
+
+                            )
                     )
                     if (usernameState.error != "") {
                         Text(
                             text = usernameState.error ?: "",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.error,
+                            color = MaterialTheme.colorScheme.onError,
                             textAlign = TextAlign.End,
                             modifier = Modifier.fillMaxWidth()
                         )
@@ -241,8 +248,13 @@ private fun LoginScreenContent(
                         singleLine = true,
                         isError = passwordState.error != null,
                         colors = TextFieldDefaults.outlinedTextFieldColors(
-                            focusedBorderColor = MaterialTheme.colorScheme.onSurface,
+                            focusedBorderColor = MaterialTheme.colorScheme.tertiary,
                             unfocusedBorderColor = MaterialTheme.colorScheme.onSurface,
+                            cursorColor = MaterialTheme.colorScheme.tertiary,
+                            selectionColors = TextSelectionColors(
+                                handleColor = MaterialTheme.colorScheme.tertiary,
+                                backgroundColor = MaterialTheme.colorScheme.tertiary
+                            ),
                         )
 
 
@@ -251,7 +263,7 @@ private fun LoginScreenContent(
                         Text(
                             text = passwordState.error ?: "",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.error,
+                            color = MaterialTheme.colorScheme.onError,
                             textAlign = TextAlign.End,
                             modifier = Modifier.fillMaxWidth()
                         )
@@ -283,7 +295,7 @@ private fun LoginScreenContent(
                     TextButton(onClick = onClickForgotPassword) {
                         Text(
                             text = "Forgot password?",
-                            color = MaterialTheme.colorScheme.onSurface,
+                            color = MaterialTheme.colorScheme.tertiary,
                         )
                     }
                 }
@@ -297,12 +309,11 @@ private fun LoginScreenContent(
                     shape = CircleShape,
                     enabled = !loginState.isLoading,
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.surface,
-                        contentColor = MaterialTheme.colorScheme.onSurface,
+                        containerColor = MaterialTheme.colorScheme.tertiary,
                     )
                 ) {
                     Text(
-                        color = MaterialTheme.colorScheme.onSurface,
+                        color = MaterialTheme.colorScheme.onTertiary,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(12.dp), text = "Sign In", textAlign = TextAlign.Center
@@ -323,7 +334,6 @@ private fun LoginScreenContent(
                             append(" ")
                             withStyle(
                                 style = SpanStyle(
-                                    color = MaterialTheme.colorScheme.onSurface,
                                     fontWeight = FontWeight.Bold
                                 )
                             ) {
@@ -332,7 +342,7 @@ private fun LoginScreenContent(
                         },
 //                    fontFamily = poppins,
                         textAlign = TextAlign.Center,
-                        color = MaterialTheme.colorScheme.onSurface,
+                        color = MaterialTheme.colorScheme.tertiary,
                     )
                 }
             }

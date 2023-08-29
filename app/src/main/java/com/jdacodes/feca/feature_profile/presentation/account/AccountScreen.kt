@@ -2,7 +2,6 @@ package com.jdacodes.feca.feature_profile.presentation.account
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -34,7 +33,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -43,7 +41,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.jdacodes.feca.R
 import com.jdacodes.feca.core.util.UiEvents
@@ -179,7 +177,8 @@ private fun AccountScreenContent(
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(
                             imageVector = Icons.Outlined.ChevronRight,
-                            contentDescription = null
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.tertiary
                         )
                     }
                 }
@@ -192,8 +191,8 @@ private fun AccountScreenContent(
                 onClick = onClickSignOut,
                 shape = CircleShape,
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = MaterialTheme.colorScheme.surface,
-                    )
+                    backgroundColor = MaterialTheme.colorScheme.tertiary,
+                )
             ) {
                 Text(
                     modifier = Modifier
@@ -201,7 +200,7 @@ private fun AccountScreenContent(
                         .padding(12.dp),
                     text = "Sign Out",
                     textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onTertiary
                 )
             }
         }
@@ -221,15 +220,12 @@ fun UserItem(
         contentColor = MaterialTheme.colorScheme.onSurface
     ) {
         Row {
-            Image(
-                painter = rememberAsyncImagePainter(
-                    ImageRequest.Builder(LocalContext.current)
-                        .data(data = "https://firebasestorage.googleapis.com/v0/b/savingszetu.appspot.com/o/50293753.jpeg?alt=media&token=a7174053-5253-49ed-b885-08f428df0287")
-                        .apply(block = fun ImageRequest.Builder.() {
-                            placeholder(R.drawable.ic_placeholder)
-                            crossfade(true)
-                        }).build()
-                ),
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data("https://www.kindpng.com/picc/m/22-223941_transparent-avatar-png-male-avatar-icon-transparent-png.png")
+                    .crossfade(true)
+                    .placeholder(R.drawable.ic_placeholder)
+                    .build(),
                 contentDescription = null,
                 modifier = Modifier
                     .padding(5.dp)
@@ -281,11 +277,9 @@ fun UserItem(
                     onClick = {
                     },
                     colors = ButtonDefaults.buttonColors(
-                        contentColor = MaterialTheme.colorScheme.onPrimary,
-                        backgroundColor = MaterialTheme.colorScheme.primary
+                        backgroundColor = MaterialTheme.colorScheme.tertiary
                     ),
                     shape = CircleShape,
-                    border = BorderStroke(2.dp, Color.White)
                 ) {
                     Text(
                         modifier = Modifier
@@ -293,7 +287,7 @@ fun UserItem(
                         fontSize = 11.sp,
                         textAlign = TextAlign.Center,
                         text = "Edit profile",
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = MaterialTheme.colorScheme.onTertiary
                     )
                 }
             }

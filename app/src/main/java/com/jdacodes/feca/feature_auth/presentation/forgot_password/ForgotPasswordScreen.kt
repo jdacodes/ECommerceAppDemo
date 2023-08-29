@@ -86,10 +86,12 @@ fun ForgotPasswordContent(onClickForgotPassword: () -> Unit) {
                     keyboardType = KeyboardType.Email,
                 ),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = MaterialTheme.colorScheme.onSurface,
+                    focusedBorderColor = MaterialTheme.colorScheme.tertiary,
                     unfocusedBorderColor = MaterialTheme.colorScheme.onSurface,
-                    cursorColor = MaterialTheme.colorScheme.onSurface,
-                )
+                    cursorColor = MaterialTheme.colorScheme.tertiary,
+
+
+                    )
             )
         }
 
@@ -100,11 +102,11 @@ fun ForgotPasswordContent(onClickForgotPassword: () -> Unit) {
                 onClick = onClickForgotPassword,
                 shape = CircleShape,
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = MaterialTheme.colorScheme.surface,
-                    contentColor = MaterialTheme.colorScheme.onSurface
+                    backgroundColor = MaterialTheme.colorScheme.tertiary,
                 )
             ) {
                 Text(
+                    color = MaterialTheme.colorScheme.onTertiary,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(12.dp), text = "Continue", textAlign = TextAlign.Center

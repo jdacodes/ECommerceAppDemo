@@ -85,7 +85,8 @@ fun SplashScreen(
             Icon(
                 imageVector = Icons.Outlined.ShoppingCart,
                 contentDescription = null,
-                modifier = Modifier.size(48.dp)
+                modifier = Modifier.size(48.dp),
+                tint = MaterialTheme.colorScheme.tertiary
             )
             Text(
                 text = "FECA",

@@ -19,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -29,7 +28,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.jdacodes.feca.R
 import com.jdacodes.feca.core.util.LoadingAnimation
@@ -131,7 +130,7 @@ private fun CartScreenContent(state: CartItemsState) {
                         .padding(16.dp),
                     textAlign = TextAlign.Center,
                     text = state.error,
-                    color = Color.Red
+                    color = MaterialTheme.colorScheme.onError
                 )
             }
         }
@@ -206,16 +205,16 @@ private fun CheckoutComponent(state: CartItemsState) {
             onClick = {},
             shape = CircleShape,
             colors = ButtonDefaults.buttonColors(
-                backgroundColor = MaterialTheme.colorScheme.surface,
+                backgroundColor = MaterialTheme.colorScheme.tertiary,
 
-            )
+                )
         ) {
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp), text = "Checkout",
                 textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onTertiary
             )
         }
     }
@@ -233,15 +232,12 @@ fun CartItem(
         backgroundColor = MaterialTheme.colorScheme.surface
     ) {
         Row {
-            Image(
-                painter = rememberAsyncImagePainter(
-                    ImageRequest.Builder(LocalContext.current)
-                        .data(data = cartItem.imageUrl)
-                        .apply(block = fun ImageRequest.Builder.() {
-                            placeholder(R.drawable.ic_placeholder)
-                            crossfade(true)
-                        }).build()
-                ),
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(cartItem.imageUrl)
+                    .crossfade(true)
+                    .placeholder(R.drawable.ic_placeholder)
+                    .build(),
                 contentDescription = null,
                 modifier = Modifier
                     .padding(5.dp)
