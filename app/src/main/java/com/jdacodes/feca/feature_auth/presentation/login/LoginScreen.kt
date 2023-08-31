@@ -34,7 +34,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -70,8 +69,6 @@ fun LoginScreen(
 
     val loginState = viewModel.loginState.value
     val scaffoldState = rememberScaffoldState()
-
-    val keyboardController = LocalSoftwareKeyboardController.current
 
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
@@ -151,7 +148,6 @@ fun LoginScreen(
                 navigator.navigate(RegisterScreenDestination)
             },
             onClickSignIn = {
-                keyboardController?.hide()
                 viewModel.loginUser()
             }
         )
