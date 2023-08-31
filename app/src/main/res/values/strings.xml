@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Fake E-Commerce App</string>
+    <string name="app_name">Feca</string>
     <string name="show_less">Show less</string>
     <string name="show_more">Show more</string>
     <string name="star_rating_icon">star_rating_icon</string>
