@@ -55,6 +55,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.jdacodes.feca.core.domain.model.TextFieldState
+import com.jdacodes.feca.core.presentation.theme.workSans
 import com.jdacodes.feca.core.util.UiEvents
 import com.jdacodes.feca.destinations.AuthDashBoardScreenDestination
 import com.jdacodes.feca.destinations.ForgotPasswordScreenDestination
@@ -125,12 +126,14 @@ fun LoginScreen(
                         text = "Welcome Back",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
+                        fontFamily = workSans,
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Text(
                         text = "Login to your account to continue shopping",
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Light,
+                        fontFamily = workSans,
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 }
@@ -312,6 +315,7 @@ private fun LoginScreenContent(
                         Text(
                             text = "Remember me",
                             fontSize = 12.sp,
+                            fontFamily = workSans,
                             color = MaterialTheme.colorScheme.onSurface,
                         )
                     }
@@ -363,7 +367,7 @@ private fun LoginScreenContent(
                                 append("Sign Up")
                             }
                         },
-//                    fontFamily = poppins,
+                        fontFamily = workSans,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.tertiary,
                     )

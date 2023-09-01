@@ -163,13 +163,19 @@ private fun CheckoutComponent(state: CartItemsState) {
         ) {
             Text(
                 text = "${state.cartItems.size} items",
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 16.sp,
+                ),
             )
             Text(
                 text = "${state.cartItems.sumOf { (it.price * it.quantity) }}",
                 color = MaterialTheme.colorScheme.onSurface,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 16.sp,
+                ),
             )
         }
         Spacer(modifier = Modifier.height(5.dp))
@@ -177,11 +183,20 @@ private fun CheckoutComponent(state: CartItemsState) {
             Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = "Shipping fee", color = MaterialTheme.colorScheme.onSurface)
+            Text(
+                text = "Shipping fee",
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 16.sp,
+                ),
+            )
             Text(
                 text = "$60.00", color = MaterialTheme.colorScheme.onSurface,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 16.sp,
+                ),
             )
         }
         Spacer(modifier = Modifier.height(5.dp))
@@ -190,13 +205,23 @@ private fun CheckoutComponent(state: CartItemsState) {
             Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = "Total", color = MaterialTheme.colorScheme.onSurface)
+            Text(
+                text = "Total",
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 16.sp,
+                ),
+            )
             Text(
                 text = "$${
                     state.cartItems.sumOf { (it.price * it.quantity) } + 60.00
-                }", color = MaterialTheme.colorScheme.onSurface,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold
+                }",
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 16.sp,
+                ),
             )
         }
         Spacer(modifier = Modifier.height(12.dp))
@@ -255,17 +280,21 @@ fun CartItem(
                     text = cartItem.name,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 14.sp,
+                    ),
                     color = MaterialTheme.colorScheme.onSurface,
                 )
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
                     text = "$${cartItem.price}",
                     color = MaterialTheme.colorScheme.onSurface,
-                    fontSize = 18.sp,
                     maxLines = 3,
-                    fontWeight = FontWeight.Light,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.Light,
+                        fontSize = 18.sp,
+                    ),
                 )
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
@@ -274,8 +303,10 @@ fun CartItem(
                     textAlign = TextAlign.End,
                     text = "${cartItem.quantity} Pc",
                     color = MaterialTheme.colorScheme.onSurface,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 16.sp,
+                    ),
                 )
             }
         }

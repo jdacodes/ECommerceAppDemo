@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.jdacodes.feca.R
+import com.jdacodes.feca.core.presentation.theme.workSans
 import com.jdacodes.feca.destinations.LoginScreenDestination
 import com.jdacodes.feca.destinations.RegisterScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
@@ -73,6 +74,7 @@ fun AuthDashBoardScreen(
                             .padding(start = 8.dp, end = 24.dp),
                         color = MaterialTheme.colorScheme.onSurface,
                         fontSize = 24.sp,
+                        fontFamily = workSans,
                         text = "Make your shopping a hassle-free experience"
                     )
                     Spacer(modifier = Modifier.height(32.dp))

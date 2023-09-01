@@ -1,9 +1,6 @@
 package com.jdacodes.feca.feature_product.presentation
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -188,15 +185,18 @@ fun ProductItem(
 
 @Composable
 fun CardContent(
-    product: Product, navigator: DestinationsNavigator, index: Int, modifier: Modifier = Modifier
+    product: Product,
+    navigator: DestinationsNavigator,
+    index: Int,
+    modifier: Modifier = Modifier
 ) {
     Row(modifier = Modifier
         .padding(12.dp)
-        .animateContentSize(
-            animationSpec = spring(
-                dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessLow
-            )
-        )
+//        .animateContentSize(
+//            animationSpec = spring(
+//                dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessLow
+//            )
+//        )
         .clickable { navigator.navigate(SingleProductScreenDestination(product = product)) }) {
         Column(
             modifier = Modifier.padding(12.dp)
@@ -217,7 +217,7 @@ fun CardContent(
                     text = it,
                     style = MaterialTheme.typography.bodyMedium.copy(
                         fontWeight = FontWeight.SemiBold,
-                        fontSize = 14.sp
+                        fontSize = 14.sp,
                     ),
                     maxLines = 2,
                     textAlign = TextAlign.Start,

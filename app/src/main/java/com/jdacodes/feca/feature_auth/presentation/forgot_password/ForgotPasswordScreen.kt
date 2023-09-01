@@ -26,6 +26,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.jdacodes.feca.core.presentation.theme.workSans
 import com.ramcosta.composedestinations.annotation.Destination
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -41,12 +42,14 @@ fun ForgotPasswordScreen() {
                     text = "Forgot Password",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
+                    fontFamily = workSans,
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
                     text = "Please enter an email address that you had registered with, so that we can send you a password reset link",
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Light,
+                    fontFamily = workSans,
                     color = MaterialTheme.colorScheme.onSurface
                 )
             }

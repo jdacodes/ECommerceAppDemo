@@ -163,15 +163,19 @@ private fun AccountScreenContent(
                         Text(
                             text = item.title,
                             color = MaterialTheme.colorScheme.onSurface,
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 16.sp
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 16.sp,
+                            ),
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
                             text = item.content,
                             color = MaterialTheme.colorScheme.onSurface,
-                            fontWeight = FontWeight.Light,
-                            fontSize = 12.sp
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                fontWeight = FontWeight.Light,
+                                fontSize = 12.sp,
+                            ),
                         )
                     }
                     IconButton(onClick = { /*TODO*/ }) {
@@ -258,17 +262,22 @@ fun UserItem(
                     }",
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold,
+
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 18.sp,
+                    ),
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
                     text = "@${user.username}",
                     color = MaterialTheme.colorScheme.onSurface,
-                    fontSize = 16.sp,
                     maxLines = 3,
-                    fontWeight = FontWeight.Light
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.Light,
+                        fontSize = 16.sp,
+                    ),
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 

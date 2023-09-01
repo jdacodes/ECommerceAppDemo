@@ -210,18 +210,22 @@ fun WishlistItem(
                     text = wishlist.title,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 14.sp,
+                    ),
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
                     text = "$${wishlist.price}",
                     color = MaterialTheme.colorScheme.onSurface,
-                    fontSize = 22.sp,
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis,
-                    fontWeight = FontWeight.Light
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.Light,
+                        fontSize = 22.sp
+                    ),
                 )
                 IconButton(
                     onClick = {

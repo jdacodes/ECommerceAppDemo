@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.jdacodes.feca.core.presentation.theme.workSans
 import com.jdacodes.feca.destinations.LoginScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -49,12 +50,14 @@ fun RegisterScreen(
                     text = "Getting Started",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
+                    fontFamily = workSans,
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
                     text = "Create an account to continue with your shopping",
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Light,
+                    fontFamily = workSans,
                     color = MaterialTheme.colorScheme.onSurface
                 )
             }
@@ -88,7 +91,7 @@ fun RegisterScreenContent(
 
                 },
                 label = {
-                    Text(text = "Name",color = MaterialTheme.colorScheme.onSurface)
+                    Text(text = "Name", color = MaterialTheme.colorScheme.onSurface)
                 },
                 keyboardOptions = KeyboardOptions(
                     capitalization = KeyboardCapitalization.Words,
@@ -114,7 +117,7 @@ fun RegisterScreenContent(
 
                 },
                 label = {
-                    Text(text = "Email",color = MaterialTheme.colorScheme.onSurface)
+                    Text(text = "Email", color = MaterialTheme.colorScheme.onSurface)
                 },
                 keyboardOptions = KeyboardOptions(
                     autoCorrect = true,
@@ -139,7 +142,7 @@ fun RegisterScreenContent(
 
                 },
                 label = {
-                    Text(text = "Password",color = MaterialTheme.colorScheme.onSurface)
+                    Text(text = "Password", color = MaterialTheme.colorScheme.onSurface)
                 },
                 keyboardOptions = KeyboardOptions(
                     autoCorrect = true,
@@ -194,7 +197,7 @@ fun RegisterScreenContent(
                             style = SpanStyle(
                                 color = MaterialTheme.colorScheme.onSurface
                             )
-                        ){
+                        ) {
                             append("Already have an account?")
                         }
                         append(" ")
@@ -207,7 +210,7 @@ fun RegisterScreenContent(
                             append("Sign In")
                         }
                     },
-//                    fontFamily = poppins,
+                    fontFamily = workSans,
                     textAlign = TextAlign.Center
                 )
             }

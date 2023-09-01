@@ -6,4 +6,5 @@
     <string name="products_list">products_list</string>
     <string name="single_product">single_product</string>
     <string name="add_to_cart">Add to cart</string>
+    <string name="app_name_full">Fake E-Commerce App</string>
 </resources>
