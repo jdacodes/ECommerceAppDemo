@@ -36,7 +36,7 @@ class ProductViewModel @Inject constructor(
     private var productJob: Job? = null
     private var searchJob: Job? = null
 
-    fun getProductsList(){
+    fun getProductsList() {
         productJob?.cancel()
         productJob = viewModelScope.launch {
             delay(500L)
@@ -73,15 +73,19 @@ class ProductViewModel @Inject constructor(
         }
     }
 
-    fun onSearch(query: String){
-        if (query.isBlank()){
+    fun setSearchTerm(query: String) {
+        _searchQuery.value = query
+    }
+
+    fun onSearch(query: String) {
+        if (query.isBlank()) {
             getProductsList()
         }
         _searchQuery.value = query
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
             delay(500L)
-           getProductsByTitle(query)
+            getProductsByTitle(query)
                 .onEach { result ->
                     when (result) {
                         is Resource.Success -> {

@@ -114,14 +114,21 @@ fun ProductListElement(
                 viewModel = viewModel,
                 leadingIcon = {
                     Icon(
-                        Icons.Sharp.Search, contentDescription = null, tint = Color.White
+                        Icons.Sharp.Search,
+                        contentDescription = null,
+                        tint = Color.White
                     )
                 },
                 trailingIcon = null,
                 paddingLeadingIconEnd = 10.dp,
                 paddingTrailingIconStart = 10.dp,
+                onSearch = {
+                    keyboardController?.hide()
+                    viewModel.onSearch(viewModel.searchQuery.value)
 
-                )
+                }
+
+            )
             Spacer(modifier = Modifier.height(8.dp))
             LazyVerticalStaggeredGrid(
                 columns = StaggeredGridCells.Fixed(2),
@@ -212,19 +219,18 @@ fun CardContent(
                 contentScale = ContentScale.Inside,
             )
             Spacer(modifier = Modifier.padding(vertical = 8.dp))
-            product.title?.let {
-                Text(
-                    text = it,
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 14.sp,
-                    ),
-                    maxLines = 2,
-                    textAlign = TextAlign.Start,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.align(Alignment.Start)
-                )
-            }
+            Text(
+                text = product.title,
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 14.sp,
+                ),
+                maxLines = 2,
+                textAlign = TextAlign.Start,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.align(Alignment.Start)
+            )
+
             Spacer(modifier = Modifier.padding(vertical = 8.dp))
             Text(
                 text = "$ ${product.price}",
@@ -248,7 +254,7 @@ fun CardContent(
                     modifier = Modifier.size(18.dp)
                 )
                 Text(
-                    text = " ${product.rating?.rate}",
+                    text = " ${product.rating.rate}",
                     style = MaterialTheme.typography.bodyMedium.copy(
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 18.sp

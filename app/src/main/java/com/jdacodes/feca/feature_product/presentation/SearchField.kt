@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -26,12 +25,12 @@ import androidx.compose.ui.unit.dp
 fun SearchField(
     viewModel: ProductViewModel,
     modifier: Modifier = Modifier,
+    onSearch: () -> Unit,
     paddingLeadingIconEnd: Dp = 0.dp,
     paddingTrailingIconStart: Dp = 0.dp,
     leadingIcon: (@Composable() () -> Unit)? = null,
     trailingIcon: (@Composable() () -> Unit)? = null,
 ) {
-    val keyboardController = LocalSoftwareKeyboardController.current
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -47,7 +46,7 @@ fun SearchField(
             TextField(
                 singleLine = true,
                 value = viewModel.searchQuery.value,
-                onValueChange = viewModel::onSearch,
+                onValueChange = { viewModel.setSearchTerm(it) },
                 modifier = Modifier
                     .fillMaxWidth(),
                 placeholder = {
@@ -66,10 +65,10 @@ fun SearchField(
                 ),
                 shape = CircleShape,
                 leadingIcon = leadingIcon,
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                 keyboardActions = KeyboardActions(
-                    onDone = {
-                        keyboardController?.hide()
+                    onSearch = {
+                        onSearch()
                     }
                 )
             )
