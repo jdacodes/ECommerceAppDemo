@@ -86,6 +86,9 @@ fun ProductListElement(
     isLoading: Boolean,
     modifier: Modifier = Modifier,
     viewModel: ProductViewModel,
+    categories: List<String>,
+    selectedCategory: String,
+    onSelectCategory: (String) -> Unit,
 
     ) {
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -128,6 +131,12 @@ fun ProductListElement(
 
                 }
 
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            CategoriesElement(
+                categories = categories,
+                onSelectCategory = onSelectCategory,
+                selectedCategory = selectedCategory
             )
             Spacer(modifier = Modifier.height(8.dp))
             LazyVerticalStaggeredGrid(

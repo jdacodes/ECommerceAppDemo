@@ -75,4 +75,8 @@ class ProductRepositoryImpl(
         val newProducts = dao.getProductByTitle(title).map { it.toProduct() }
         emit(Resource.Success(newProducts))
     }
+
+    override suspend fun getProductCategories(): List<String> {
+        return api.getProductCategories()
+    }
 }

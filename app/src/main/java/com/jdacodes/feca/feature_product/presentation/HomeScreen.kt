@@ -23,8 +23,10 @@ fun HomeScreen(
 ) {
     val state = viewModel.state.value
     val scaffoldState = rememberScaffoldState()
+    val categories = viewModel.categoriesState.value
 
     LaunchedEffect(key1 = true) {
+        viewModel.getCategories()
         viewModel.getProductsList()
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
@@ -33,6 +35,7 @@ fun HomeScreen(
                         message = event.message
                     )
                 }
+
                 is UiEvents.NavigateEvent -> {
 
                 }
@@ -44,14 +47,20 @@ fun HomeScreen(
         modifier = modifier,
         scaffoldState = scaffoldState,
 
-    ) { paddingValues ->
+        ) { paddingValues ->
         paddingValues
 
         ProductListElement(
             productItems = state.productItems,
             navigator = navigator,
             isLoading = state.isLoading,
-            viewModel = viewModel
+            viewModel = viewModel,
+            categories = categories,
+            selectedCategory = viewModel.selectedCategory.value,
+            onSelectCategory = { category ->
+                viewModel.setCategory(category)
+                viewModel.getProductsList(viewModel.selectedCategory.value)
+            }
         )
 
 

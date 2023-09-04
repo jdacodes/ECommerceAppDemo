@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jdacodes.feca.core.util.Resource
 import com.jdacodes.feca.core.util.UiEvents
+import com.jdacodes.feca.feature_product.domain.use_case.GetCategoriesUseCase
 import com.jdacodes.feca.feature_product.domain.use_case.GetProducts
 import com.jdacodes.feca.feature_product.domain.use_case.GetProductsByTitle
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductViewModel @Inject constructor(
     private val getProducts: GetProducts,
-    private val getProductsByTitle: GetProductsByTitle
+    private val getProductsByTitle: GetProductsByTitle,
+    private val getCategoriesUseCase: GetCategoriesUseCase
 ) : ViewModel() {
 
     private val _searchQuery = mutableStateOf("")
@@ -33,21 +35,46 @@ class ProductViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvents>()
     val eventFlow = _eventFlow.asSharedFlow()
 
+    private val _selectedCategory = mutableStateOf("All")
+    val selectedCategory: State<String> = _selectedCategory
+
+    private val _categoriesState = mutableStateOf(emptyList<String>())
+    val categoriesState: State<List<String>> = _categoriesState
+
     private var productJob: Job? = null
     private var searchJob: Job? = null
 
-    fun getProductsList() {
+    fun getProductsList(category: String = "All") {
         productJob?.cancel()
         productJob = viewModelScope.launch {
+            val searchTerm = searchQuery.value
             delay(500L)
             getProducts()
                 .onEach { result ->
                     when (result) {
                         is Resource.Success -> {
-                            _state.value = state.value.copy(
-                                productItems = result.data ?: emptyList(),
-                                isLoading = false
-                            )
+                            if (category == "All") {
+                                _state.value = state.value.copy(
+                                    productItems = if (searchTerm.isEmpty()) {
+                                        result.data ?: emptyList()
+                                    } else {
+                                        result.data?.filter {
+                                            it.title.contains(
+                                                searchTerm,
+                                                ignoreCase = true
+                                            )
+                                        } ?: emptyList()
+                                    },
+                                    isLoading = false
+                                )
+                            } else {
+                                _state.value = state.value.copy(
+                                    productItems = result.data?.filter { it.category == category }
+                                        ?: emptyList(),
+                                    isLoading = false
+                                )
+                            }
+
                         }
 
                         is Resource.Error -> {
@@ -71,6 +98,17 @@ class ProductViewModel @Inject constructor(
                     }
                 }.launchIn(this)
         }
+    }
+
+
+    fun getCategories() {
+        viewModelScope.launch {
+            _categoriesState.value = getCategoriesUseCase()
+        }
+    }
+
+    fun setCategory(value: String) {
+        _selectedCategory.value = value
     }
 
     fun setSearchTerm(query: String) {

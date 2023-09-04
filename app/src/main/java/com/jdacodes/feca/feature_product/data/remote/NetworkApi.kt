@@ -8,9 +8,7 @@ interface NetworkApi {
     @GET("/products")
     suspend fun getProducts(): List<ProductDto>
 
-//    @GET("/products/{id}")
-//    suspend fun getProductById(
-//        @Path("id") id: Int
-//    ): ProductDto
+    @GET("products/categories")
+    suspend fun getProductCategories(): List<String>
 
 }
