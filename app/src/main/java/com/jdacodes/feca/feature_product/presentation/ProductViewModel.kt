@@ -44,6 +44,11 @@ class ProductViewModel @Inject constructor(
     private var productJob: Job? = null
     private var searchJob: Job? = null
 
+    init {
+        getCategories()
+        getProductsList()
+    }
+
     fun getProductsList(category: String = "All") {
         productJob?.cancel()
         productJob = viewModelScope.launch {

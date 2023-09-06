@@ -26,8 +26,6 @@ fun HomeScreen(
     val categories = viewModel.categoriesState.value
 
     LaunchedEffect(key1 = true) {
-        viewModel.getCategories()
-        viewModel.getProductsList()
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
                 is UiEvents.SnackBarEvent -> {
