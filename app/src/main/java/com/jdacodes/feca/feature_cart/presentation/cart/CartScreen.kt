@@ -10,13 +10,19 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -36,6 +42,7 @@ import com.jdacodes.feca.core.util.UiEvents
 import com.jdacodes.feca.feature_cart.domain.model.CartProduct
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Destination
@@ -61,8 +68,7 @@ fun CartScreen(
         }
     }
 
-    Scaffold(
-        backgroundColor = MaterialTheme.colorScheme.background,
+    Scaffold(backgroundColor = MaterialTheme.colorScheme.background,
         scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(
@@ -70,8 +76,7 @@ fun CartScreen(
                 backgroundColor = MaterialTheme.colorScheme.primary,
                 title = {
                     Text(
-                        modifier = Modifier
-                            .fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center,
                         text = "My Cart",
                         fontSize = 18.sp,
@@ -80,16 +85,26 @@ fun CartScreen(
                     )
                 },
             )
-        }
-    ) {
-        CartScreenContent(state = state)
+        }) {
+        CartScreenContent(state = state, viewModel = viewModel)
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun CartScreenContent(state: CartItemsState) {
+private fun CartScreenContent(state: CartItemsState, viewModel: CartViewModel) {
+    val refreshing by viewModel.isRefreshing
+    val coroutineScope = rememberCoroutineScope()
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    val pullRefreshState = rememberPullRefreshState(refreshing, {
+        coroutineScope.launch { viewModel.getCartItems() }
+    })
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .pullRefresh(pullRefreshState)
+    ) {
         LazyColumn {
             items(state.cartItems) { cartItem ->
                 CartItem(
@@ -105,6 +120,24 @@ private fun CartScreenContent(state: CartItemsState) {
                     CheckoutComponent(state = state)
                 }
             }
+            item {
+                if (state.error != null) {
+                    Column(
+                        Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            textAlign = TextAlign.Center,
+                            text = state.error,
+                            color = MaterialTheme.colorScheme.onError
+                        )
+                    }
+                }
+            }
         }
         if (state.isLoading) {
             Column(
@@ -118,22 +151,10 @@ private fun CartScreenContent(state: CartItemsState) {
             }
         }
 
-        if (state.error != null) {
-            Column(
-                Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    textAlign = TextAlign.Center,
-                    text = state.error,
-                    color = MaterialTheme.colorScheme.onError
-                )
-            }
-        }
+
+
+
+
 
         if (state.cartItems.isEmpty() && state.cartItems == null) {
             Column(
@@ -142,14 +163,15 @@ private fun CartScreenContent(state: CartItemsState) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
-                    modifier = Modifier
-                        .size(220.dp),
+                    modifier = Modifier.size(220.dp),
                     painter = painterResource(id = R.drawable.ic_artwork),
                     contentDescription = null
                 )
             }
         }
-
+        PullRefreshIndicator(
+            refreshing = refreshing, state = pullRefreshState, Modifier.align(Alignment.TopCenter)
+        )
     }
 
 }
@@ -158,8 +180,7 @@ private fun CartScreenContent(state: CartItemsState) {
 private fun CheckoutComponent(state: CartItemsState) {
     Column(Modifier.padding(12.dp)) {
         Row(
-            Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
                 text = "${state.cartItems.size} items",
@@ -180,8 +201,7 @@ private fun CheckoutComponent(state: CartItemsState) {
         }
         Spacer(modifier = Modifier.height(5.dp))
         Row(
-            Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
                 text = "Shipping fee",
@@ -202,8 +222,7 @@ private fun CheckoutComponent(state: CartItemsState) {
         Spacer(modifier = Modifier.height(5.dp))
 
         Row(
-            Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
                 text = "Total",
@@ -227,9 +246,7 @@ private fun CheckoutComponent(state: CartItemsState) {
         Spacer(modifier = Modifier.height(12.dp))
 
         Button(
-            onClick = {},
-            shape = CircleShape,
-            colors = ButtonDefaults.buttonColors(
+            onClick = {}, shape = CircleShape, colors = ButtonDefaults.buttonColors(
                 backgroundColor = MaterialTheme.colorScheme.tertiary,
 
                 )
@@ -237,7 +254,8 @@ private fun CheckoutComponent(state: CartItemsState) {
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp), text = "Checkout",
+                    .padding(8.dp),
+                text = "Checkout",
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onTertiary
             )
@@ -258,11 +276,8 @@ fun CartItem(
     ) {
         Row {
             AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(cartItem.imageUrl)
-                    .crossfade(true)
-                    .placeholder(R.drawable.ic_placeholder)
-                    .build(),
+                model = ImageRequest.Builder(LocalContext.current).data(cartItem.imageUrl)
+                    .crossfade(true).placeholder(R.drawable.ic_placeholder).build(),
                 contentDescription = null,
                 modifier = Modifier
                     .padding(5.dp)
@@ -298,8 +313,7 @@ fun CartItem(
                 )
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
-                    modifier = Modifier
-                        .fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.End,
                     text = "${cartItem.quantity} Pc",
                     color = MaterialTheme.colorScheme.onSurface,

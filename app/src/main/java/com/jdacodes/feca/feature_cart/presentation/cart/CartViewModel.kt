@@ -24,19 +24,23 @@ class CartViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvents>()
     val eventFlow: SharedFlow<UiEvents> = _eventFlow.asSharedFlow()
 
+    private val _isRefreshing = mutableStateOf(false)
+    val isRefreshing: State<Boolean> = _isRefreshing
+
     init {
         viewModelScope.launch {
             getCartItems()
         }
     }
 
-    private suspend fun getCartItems() {
+    suspend fun getCartItems() {
         getCartItemsUseCase().collectLatest { result ->
             when (result) {
                 is Resource.Success -> {
                     _state.value = state.value.copy(
                         cartItems = result.data ?: emptyList(),
-                        isLoading = false
+                        isLoading = false,
+                        error = null
                     )
                 }
 
@@ -57,6 +61,7 @@ class CartViewModel @Inject constructor(
                         )
                     )
                 }
+
             }
         }
     }
