@@ -1,11 +1,13 @@
 package com.jdacodes.feca.feature_product.data.repository
 
+import com.jdacodes.feca.core.util.CacheOnSuccess
 import com.jdacodes.feca.core.util.Resource
 import com.jdacodes.feca.feature_product.data.local.ProductDao
 import com.jdacodes.feca.feature_product.data.remote.NetworkApi
 import com.jdacodes.feca.feature_product.domain.model.Product
 import com.jdacodes.feca.feature_product.domain.repository.ProductRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
@@ -76,7 +78,14 @@ class ProductRepositoryImpl(
         emit(Resource.Success(newProducts))
     }
 
-    override suspend fun getProductCategories(): List<String> {
-        return api.getProductCategories()
+    private var productCategoriesCache =
+        CacheOnSuccess(onErrorFallback = { listOf<String>() }) {
+            val categories = api.getProductCategories()
+            listOf("All") + categories
+        }
+
+    override suspend fun getProductCategories(): Flow<List<String>> {
+//        return api.getProductCategories()
+        return productCategoriesCache::getOrAwait.asFlow()
     }
 }

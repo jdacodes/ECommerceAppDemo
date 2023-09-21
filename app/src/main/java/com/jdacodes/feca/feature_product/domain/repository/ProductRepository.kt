@@ -10,5 +10,5 @@ interface ProductRepository {
 
     fun getProductsByTitle(title: String): Flow<Resource<List<Product>>>
 
-    suspend fun getProductCategories(): List<String>
+    suspend fun getProductCategories(): Flow<List<String>>
 }

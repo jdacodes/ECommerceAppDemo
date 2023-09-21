@@ -38,8 +38,11 @@ class ProductViewModel @Inject constructor(
     private val _selectedCategory = mutableStateOf("All")
     val selectedCategory: State<String> = _selectedCategory
 
-    private val _categoriesState = mutableStateOf(emptyList<String>())
-    val categoriesState: State<List<String>> = _categoriesState
+//    private val _categoriesState = mutableStateOf(emptyList<String>())
+//    val categoriesState: State<List<String>> = _categoriesState
+
+    private val _categoriesState = mutableStateOf<List<String>>(emptyList())
+    val categoriesState: State<List<String>> get() = _categoriesState
 
     private var productJob: Job? = null
     private var searchJob: Job? = null
@@ -108,7 +111,10 @@ class ProductViewModel @Inject constructor(
 
     fun getCategories() {
         viewModelScope.launch {
-            _categoriesState.value = getCategoriesUseCase()
+//            _categoriesState.value = getCategoriesUseCase()
+            getCategoriesUseCase.invoke().collect { list ->
+                _categoriesState.value = list
+            }
         }
     }
 
